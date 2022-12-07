@@ -1,0 +1,40 @@
+.mealComponent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 8px;
+  margin-bottom: 1rem;
+
+  .mealName {  
+    margin-bottom: 0;
+    flex:.3;
+  }
+
+  .addMealWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border: 1px solid lightgray;
+    padding: 2rem;
+    border-radius: 3px;
+    width: 50%;
+
+    .addMealArea {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 8px;
+
+      input {
+        margin-right: 8px;
+      }
+    }
+
+    .mealList {}
+
+
+
+  }
+
+}
