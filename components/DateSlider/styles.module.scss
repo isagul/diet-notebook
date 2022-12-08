@@ -1,0 +1,22 @@
+.dateSliderComponent {
+  .dateContentWrapper {
+    h3 {
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .mealWrapper {}
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      p, h3 {
+        margin: 0
+      }
+    }
+  }
+}
