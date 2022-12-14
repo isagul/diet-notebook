@@ -1,20 +1,50 @@
 import Head from "next/head";
 import { Button, Form, Input } from "antd";
+import axios from "axios";
 import { signIn } from "next-auth/react";
 import Router from "next/router";
+import Link from "next/link"
 
 const Login = () => {
-
+  const [form] = Form.useForm();
   const redirectToHome = () => {
+    const { pathname } = Router;
+    if (pathname === "/auth/register") {
+      // TODO: redirect to a success register page
       Router.push("/");
+    }
   };
 
   const onFinish = async values => {
+    const { username, email, password } = values;
+    const res = await axios
+      .post(
+        "/api/register",
+        { username, email, password },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(async () => {
+        await loginUser();
+        redirectToHome();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(res);
+  };
 
+  const loginUser = async () => {
+    const formValues = form.getFieldsValue();
     const res = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
       redirect: false,
+      email: formValues.email,
+      password: formValues.password,
+      callbackUrl: `${window.location.origin}`,
     });
 
     res.error ? console.log(res.error) : redirectToHome();
@@ -27,15 +57,16 @@ const Login = () => {
   return (
     <div className="container">
       <Head>
-        <title>Giriş Yap</title>
+        <title>Kayıt Ol</title>
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className="login-form-wrapper">
-        <h3 className="title">Giriş Yap</h3>
+        <h3 className="title">Kayıt Ol</h3>
 
         <Form
+          form={form}
           name="basic"
           layout="vertical"
           labelCol={{
@@ -48,6 +79,18 @@ const Login = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <Form.Item
+            label="Kullanıcı Adı"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Bu alan zorunludur!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
           <Form.Item
             label="E-posta"
             name="email"
@@ -75,10 +118,10 @@ const Login = () => {
           </Form.Item>
 
           <Button type="primary" htmlType="submit" className="btn-login">
-            Giriş Yap
+            Kayıt Ol
           </Button>
         </Form>
-        <p className="txt-register">Hesabın yoksa <a href="/auth/register">Kayıt ol!</a></p>
+        <p className="txt-login">Hesabın varsa <Link href="/auth/login">Giriş Yap!</Link></p>
       </div>
     </div>
   );

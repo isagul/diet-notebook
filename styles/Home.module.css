@@ -1,5 +1,4 @@
 .container {
-  padding: 0 2rem;
   min-height: 100vh;
 }
 
@@ -13,4 +12,6 @@
   align-items: center;
 }
 
-.footer {}
+.mainContent {
+  padding: 0 1rem;
+}
