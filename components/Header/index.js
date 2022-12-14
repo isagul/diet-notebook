@@ -11,7 +11,7 @@ const Header = () => {
     <header className={styles.header}>
       <h3 className={styles.title}>Diyet Defteri</h3>
       <div className={styles.userInfoArea}>
-        <span>Hoş geldin {session.user.name}!</span>
+        <span>Hoş geldin {session?.user?.name}!</span>
         <Button onClick={() => signOut()}>Sign Out</Button>
       </div>
     </header>

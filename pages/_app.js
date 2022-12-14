@@ -1,4 +1,5 @@
 import 'antd/dist/reset.css';
+import 'react-toastify/dist/ReactToastify.css';
 import '@/styles/globals.css';
 import '@/pages/auth/login/styles.scss';
 import '@/pages/auth/register/styles.scss';
@@ -8,7 +9,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <SessionProvider
       session={pageProps.session}
-      refetchInterval={5 * 60}
+      refetchInterval={60 * 60 * 24}
       refetchOnWindowFocus={true}
     >
       <Component {...pageProps} />

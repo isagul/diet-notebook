@@ -21,6 +21,82 @@ const DateSlider = () => {
   const days = getAllDaysInMonth(now.getFullYear(), now.getMonth());
   const [clickedDate, setClickedDate] = useState(formatDate(days[DEFAULT_ACTIVE_KEY]));
 
+  const dayList = [
+    {
+      day: '1-12-2022',
+      meals: [
+        {
+          property: 'breakfast',
+          name: 'Kahvaltı',
+          items: []
+        },
+        {
+          property: 'firstSnack',
+          name: 'Ara Öğün',
+          items: []
+        },
+        {
+          property: 'afternoon',
+          name: 'Öğle Yemeği',
+          items: []
+        },
+        {
+          property: 'secondSnack',
+          name: 'Ara Öğün 1',
+          items: []
+        },
+        {
+          property: 'thirdSnack',
+          name: 'Ara Öğün 2',
+          items: []
+        },
+        {
+          property: 'dinner',
+          name: 'Akşam Yemeği',
+          items: []
+        },        
+      ],
+    },
+    {
+      day: '2-12-2022',
+      meals: [
+        {
+          property: 'breakfast',
+          name: 'Kahvaltı',
+          items: [
+            { id: 9, name: 'Bir adet elma' },
+            { id: 10, name: 'Az yağlı beyaz peynir' },
+          ]
+        },
+        {
+          property: 'firstSnack',
+          name: 'Ara Öğün',
+          items: []
+        },
+        {
+          property: 'afternoon',
+          name: 'Öğle Yemeği',
+          items: []
+        },
+        {
+          property: 'secondSnack',
+          name: 'Ara Öğün 1',
+          items: []
+        },
+        {
+          property: 'thirdSnack',
+          name: 'Ara Öğün 2',
+          items: []
+        },
+        {
+          property: 'dinner',
+          name: 'Akşam Yemeği',
+          items: []
+        }, 
+      ]
+    }
+  ]
+
   const dayContent = () => {
     return (
       <div className={styles.dateContentWrapper}>
@@ -29,12 +105,12 @@ const DateSlider = () => {
           <p>Tarih: {clickedDate}</p>
         </div>
         <div className={styles.mealWrapper}>
-          <Meal name="Kahvaltı" />
-          <Meal name="Ara Öğün" />
-          <Meal name="Öğle Yemeği" />
-          <Meal name="Ara Öğün 1" />
-          <Meal name="Ara Öğün 2" />
-          <Meal name="Akşam Yemeği" />
+          <Meal dayList={dayList} currentDate={clickedDate} />
+          {/* <Meal name="Ara Öğün" mealItems={mealItems} />
+          <Meal name="Öğle Yemeği" mealItems={mealItems} />
+          <Meal name="Ara Öğün 1" mealItems={mealItems} />
+          <Meal name="Ara Öğün 2" mealItems={mealItems} />
+          <Meal name="Akşam Yemeği" mealItems={mealItems} /> */}
         </div>
       </div>
     )

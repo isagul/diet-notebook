@@ -3,7 +3,8 @@ import { Button, Form, Input } from "antd";
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import Router from "next/router";
-import Link from "next/link"
+import Link from "next/link";
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -33,9 +34,9 @@ const Login = () => {
         redirectToHome();
       })
       .catch((error) => {
-        console.log(error);
+        toast(error)
       });
-    console.log(res);
+      toast(res)
   };
 
   const loginUser = async () => {
@@ -47,7 +48,7 @@ const Login = () => {
       callbackUrl: `${window.location.origin}`,
     });
 
-    res.error ? console.log(res.error) : redirectToHome();
+    res.error ? toast(res.error) : redirectToHome();
   };
 
   const onFinishFailed = (errorInfo) => {

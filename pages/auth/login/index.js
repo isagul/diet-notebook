@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Button, Form, Input } from "antd";
 import { signIn } from "next-auth/react";
 import Router from "next/router";
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -17,7 +18,7 @@ const Login = () => {
       redirect: false,
     });
 
-    res.error ? console.log(res.error) : redirectToHome();
+    res.error ? toast(res.error) : redirectToHome();
   };
 
   const onFinishFailed = (errorInfo) => {

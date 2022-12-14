@@ -1,24 +1,23 @@
+$small: 414px;
+
 .mealComponent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   margin-bottom: 1rem;
   border: 1px solid lightgray;
   padding: 1rem 2rem;
   border-radius: 3px;
-  justify-content: space-between;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
   .mealName {  
     margin-bottom: 0;
     align-self: flex-start;
     margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   .addMealWrapper {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
 
     .addMealArea {
       display: flex;
@@ -26,17 +25,26 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 8px;
-      width: 35%;
+      width: 50%;
 
       input {
         margin-right: 8px;
       }
     }
+  }  
+}
 
-    .mealList {}
-
-
-
+@media screen and (max-width: $small) {
+  .mealComponent {
+    padding: 1rem !important;
+    .addMealArea {
+      width: 100% !important;      
+    }
+    .addMealWrapper {
+      ul {
+        padding-left: 24px !important;
+      }
+    }
   }
-
+  
 }
