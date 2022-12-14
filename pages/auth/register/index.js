@@ -118,7 +118,7 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className="btn-login">
+          <Button type="primary" htmlType="submit" className="btn-register">
             Kayıt Ol
           </Button>
         </Form>

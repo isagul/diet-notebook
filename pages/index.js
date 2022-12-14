@@ -35,7 +35,7 @@ export default function Home() {
         <MainContent />
       )}
       {status === SESSION_STATUS.UNAUTHENTICATED && (
-        <MainContent />
+        <LoginPage />
       )}
     </div>
   )
