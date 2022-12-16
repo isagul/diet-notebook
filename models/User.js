@@ -18,6 +18,10 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  dietList: {
+    type: Array,
+    required: true,
+  },
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

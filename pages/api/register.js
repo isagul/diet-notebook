@@ -60,6 +60,7 @@ export default async function handler(
     name: username,
     email,
     hashedPassword,
+    dietList: [],
   });
 
   newUser

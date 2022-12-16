@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Head from "next/head";
 import { Button, Form, Input } from "antd";
 import { signIn } from "next-auth/react";
@@ -5,13 +6,14 @@ import Router from "next/router";
 import { toast } from 'react-toastify';
 
 const Login = () => {
+  const [isSignInPending, setSignInPending] = useState(false);
 
   const redirectToHome = () => {
-      Router.push("/");
+    Router.push("/");    
   };
 
   const onFinish = async values => {
-
+    setSignInPending(true);
     const res = await signIn("credentials", {
       email: values.email,
       password: values.password,
@@ -19,10 +21,7 @@ const Login = () => {
     });
 
     res.error ? toast(res.error) : redirectToHome();
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    setSignInPending(false);
   };
 
   return (
@@ -46,7 +45,6 @@ const Login = () => {
             span: 24,
           }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
@@ -75,7 +73,7 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className="btn-login">
+          <Button type="primary" htmlType="submit" className="btn-login" loading={isSignInPending}>
             Giriş Yap
           </Button>
         </Form>

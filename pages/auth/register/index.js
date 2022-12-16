@@ -1,17 +1,35 @@
 import Head from "next/head";
 import { Button, Form, Input } from "antd";
 import axios from "axios";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Router from "next/router";
 import Link from "next/link";
 import { toast } from 'react-toastify';
+import { useEffect } from "react";
 
-const Login = () => {
+const Register = () => {
   const [form] = Form.useForm();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      const data = {
+        email: session?.user?.email,
+      };
+
+      axios.post("http://localhost:3002/diet/createDietList", data)
+        .then(response => {
+          console.log('response :>> ', response);
+        })
+        .catch(error => {
+          console.log('error :>> ', error);
+        })
+    }
+  }, [session])
+
   const redirectToHome = () => {
     const { pathname } = Router;
     if (pathname === "/auth/register") {
-      // TODO: redirect to a success register page
       Router.push("/");
     }
   };
@@ -36,7 +54,7 @@ const Login = () => {
       .catch((error) => {
         toast(error)
       });
-      toast(res)
+    toast(res)
   };
 
   const loginUser = async () => {
@@ -49,10 +67,6 @@ const Login = () => {
     });
 
     res.error ? toast(res.error) : redirectToHome();
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -77,7 +91,6 @@ const Login = () => {
             span: 24,
           }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
@@ -128,4 +141,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

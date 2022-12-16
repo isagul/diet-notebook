@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tabs } from 'antd';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 import { Meal } from '@/components/index';
 import { getAllDaysInMonth } from '@/utils/getAllDaysInMonth';
 
 import styles from './styles.module.scss';
-
-// const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
 const DEFAULT_ACTIVE_KEY = "0";
 
@@ -16,86 +16,28 @@ const formatDate = day => {
 };
 
 const DateSlider = () => {
-
+  const [userDietList, setUserDietList] = useState([]);
   const now = new Date();
   const days = getAllDaysInMonth(now.getFullYear(), now.getMonth());
-  const [clickedDate, setClickedDate] = useState(formatDate(days[DEFAULT_ACTIVE_KEY]));
+  const [clickedDate, setClickedDate] = useState(formatDate(days[DEFAULT_ACTIVE_KEY]));  
+  const { data: session } = useSession();
 
-  const dayList = [
-    {
-      day: '1-12-2022',
-      meals: [
-        {
-          property: 'breakfast',
-          name: 'Kahvaltı',
-          items: []
-        },
-        {
-          property: 'firstSnack',
-          name: 'Ara Öğün',
-          items: []
-        },
-        {
-          property: 'afternoon',
-          name: 'Öğle Yemeği',
-          items: []
-        },
-        {
-          property: 'secondSnack',
-          name: 'Ara Öğün 1',
-          items: []
-        },
-        {
-          property: 'thirdSnack',
-          name: 'Ara Öğün 2',
-          items: []
-        },
-        {
-          property: 'dinner',
-          name: 'Akşam Yemeği',
-          items: []
-        },        
-      ],
-    },
-    {
-      day: '2-12-2022',
-      meals: [
-        {
-          property: 'breakfast',
-          name: 'Kahvaltı',
-          items: [
-            { id: 9, name: 'Bir adet elma' },
-            { id: 10, name: 'Az yağlı beyaz peynir' },
-          ]
-        },
-        {
-          property: 'firstSnack',
-          name: 'Ara Öğün',
-          items: []
-        },
-        {
-          property: 'afternoon',
-          name: 'Öğle Yemeği',
-          items: []
-        },
-        {
-          property: 'secondSnack',
-          name: 'Ara Öğün 1',
-          items: []
-        },
-        {
-          property: 'thirdSnack',
-          name: 'Ara Öğün 2',
-          items: []
-        },
-        {
-          property: 'dinner',
-          name: 'Akşam Yemeği',
-          items: []
-        }, 
-      ]
+  useEffect(() => {
+    if(session) {
+      axios.get("http://localhost:3002/diet/getUserDietList", {
+      params: {
+        email: session?.user?.email
+      }
+    })
+      .then(response => {
+        const { data } = response;
+        setUserDietList(data?.dietList);
+      })
+      .catch(error => {
+        console.log('error :>> ', error);
+      })
     }
-  ]
+  }, []);
 
   const dayContent = () => {
     return (
@@ -105,12 +47,7 @@ const DateSlider = () => {
           <p>Tarih: {clickedDate}</p>
         </div>
         <div className={styles.mealWrapper}>
-          <Meal dayList={dayList} currentDate={clickedDate} />
-          {/* <Meal name="Ara Öğün" mealItems={mealItems} />
-          <Meal name="Öğle Yemeği" mealItems={mealItems} />
-          <Meal name="Ara Öğün 1" mealItems={mealItems} />
-          <Meal name="Ara Öğün 2" mealItems={mealItems} />
-          <Meal name="Akşam Yemeği" mealItems={mealItems} /> */}
+          <Meal dayList={userDietList} currentDate={clickedDate} />
         </div>
       </div>
     )
