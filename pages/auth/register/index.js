@@ -7,7 +7,7 @@ import Link from "next/link";
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 
-import { createDietList } from '@/services/diet';
+import { createDietList, getUserDietList } from '@/services/diet';
 import { registerUser } from '@/services/auth';
 import { setDietList } from '@/store/slices/dietListSlice';
 
@@ -23,9 +23,15 @@ const Register = () => {
       };
 
       createDietList({ data })
-        .then(response => {
-          const { dietList } = response;
-          dispatch(setDietList(dietList));
+        .then(() => {
+          getUserDietList({ data: { email: data.email } })
+            .then(dietListResponse => {
+              const { dietList } = dietListResponse
+              dispatch(setDietList(dietList));
+            })
+            .catch(error => {
+              console.log('error :>> ', error);
+            })
         })
         .catch(error => {
           console.log('error :>> ', error);

@@ -11,7 +11,7 @@ import styles from './styles.module.scss';
 
 const Meal = ({ dayList, currentDate }) => {
   const [mealItemName, setMealItemName] = useState(undefined);
-  const selectedDate = dayList.find(({ date }) => date === currentDate);
+  const selectedDate = dayList?.find(({ date }) => date === currentDate);
   const { data: session } = useSession();
   const dispatch = useDispatch();
 
