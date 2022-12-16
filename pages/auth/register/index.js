@@ -1,13 +1,18 @@
+import { useEffect } from "react";
 import Head from "next/head";
 import { Button, Form, Input } from "antd";
-import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import Router from "next/router";
 import Link from "next/link";
 import { toast } from 'react-toastify';
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { createDietList } from '@/services/diet';
+import { registerUser } from '@/services/auth';
+import { setDietList } from '@/store/slices/dietListSlice';
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { data: session } = useSession();
 
@@ -17,15 +22,16 @@ const Register = () => {
         email: session?.user?.email,
       };
 
-      axios.post("http://localhost:3002/diet/createDietList", data)
+      createDietList({ data })
         .then(response => {
-          console.log('response :>> ', response);
+          const { dietList } = response;
+          dispatch(setDietList(dietList));
         })
         .catch(error => {
           console.log('error :>> ', error);
         })
     }
-  }, [session])
+  }, [session, dispatch])
 
   const redirectToHome = () => {
     const { pathname } = Router;
@@ -35,18 +41,7 @@ const Register = () => {
   };
 
   const onFinish = async values => {
-    const { username, email, password } = values;
-    const res = await axios
-      .post(
-        "/api/register",
-        { username, email, password },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
+    const res = registerUser({ data: values })
       .then(async () => {
         await loginUser();
         redirectToHome();
@@ -103,7 +98,7 @@ const Register = () => {
               },
             ]}
           >
-            <Input />
+            <Input autoFocus />
           </Form.Item>
           <Form.Item
             label="E-posta"

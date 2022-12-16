@@ -6,6 +6,9 @@
       "@/utils/*": ["utils/*"],
       "@/styles/*": ["styles/*"],
       "@/pages/*": ["pages/*"],
+      "@/lib/*": ["lib/*"],
+      "@/services/*": ["services/*"],
+      "@/store/*": ["store/*"],
     }
   }
 }

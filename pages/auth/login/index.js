@@ -57,7 +57,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input />
+            <Input autoFocus />
           </Form.Item>
 
           <Form.Item

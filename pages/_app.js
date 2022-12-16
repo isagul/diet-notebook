@@ -4,6 +4,9 @@ import '@/styles/globals.css';
 import '@/pages/auth/login/styles.scss';
 import '@/pages/auth/register/styles.scss';
 import { SessionProvider } from "next-auth/react";
+import { Provider } from 'react-redux'
+
+import { store } from '../store';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,7 +15,9 @@ function MyApp({ Component, pageProps }) {
       refetchInterval={60 * 60 * 24}
       refetchOnWindowFocus={true}
     >
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </SessionProvider>
   )
 }

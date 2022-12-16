@@ -31,6 +31,17 @@ $small: 414px;
         margin-right: 8px;
       }
     }
+    ul {
+      padding-left: 0;
+    }
+    .mealItem {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #f3f3f3;
+      padding: 8px;
+      &:nth-child(odd) { background-color:#ececec; }
+      &:nth-child(even) { background-color:#f4f4f4; }
+    }
   }  
 }
 
@@ -39,11 +50,6 @@ $small: 414px;
     padding: 1rem !important;
     .addMealArea {
       width: 100% !important;      
-    }
-    .addMealWrapper {
-      ul {
-        padding-left: 24px !important;
-      }
     }
   }
   

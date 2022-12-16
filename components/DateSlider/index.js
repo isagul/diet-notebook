@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Tabs } from 'antd';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
 
 import { Meal } from '@/components/index';
 import { getAllDaysInMonth } from '@/utils/getAllDaysInMonth';
@@ -16,38 +15,20 @@ const formatDate = day => {
 };
 
 const DateSlider = () => {
-  const [userDietList, setUserDietList] = useState([]);
   const now = new Date();
   const days = getAllDaysInMonth(now.getFullYear(), now.getMonth());
-  const [clickedDate, setClickedDate] = useState(formatDate(days[DEFAULT_ACTIVE_KEY]));  
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if(session) {
-      axios.get("http://localhost:3002/diet/getUserDietList", {
-      params: {
-        email: session?.user?.email
-      }
-    })
-      .then(response => {
-        const { data } = response;
-        setUserDietList(data?.dietList);
-      })
-      .catch(error => {
-        console.log('error :>> ', error);
-      })
-    }
-  }, []);
+  const [clickedDate, setClickedDate] = useState(formatDate(days[DEFAULT_ACTIVE_KEY]));
+  const dietList = useSelector(state => state.dietList.data);
 
   const dayContent = () => {
     return (
       <div className={styles.dateContentWrapper}>
         <div className={styles.title}>
-          <h3>Günlük Menü</h3>
-          <p>Tarih: {clickedDate}</p>
+          <h3>Günlük Menü ({clickedDate}) </h3>
+          {/* <p>Tarih: {clickedDate}</p> */}
         </div>
         <div className={styles.mealWrapper}>
-          <Meal dayList={userDietList} currentDate={clickedDate} />
+          <Meal dayList={dietList} currentDate={clickedDate} />
         </div>
       </div>
     )

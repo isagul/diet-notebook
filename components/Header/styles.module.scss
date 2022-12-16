@@ -8,6 +8,7 @@
   margin-bottom: 1rem;
   .title {
     margin-bottom: 0;
+    margin-left: 5px;
   }
   .userIcon{
     font-size: 20px;
@@ -19,5 +20,10 @@
     button {
       margin-left: 8px;
     }
+  }
+  .logoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

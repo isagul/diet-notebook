@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Input, Button, Divider } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSession } from 'next-auth/react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+
+import { updateMealtoDiet, getUserDietList, deleteMealItem } from '@/services/diet';
+import { setDietList } from '@/store/slices/dietListSlice';
 
 import styles from './styles.module.scss';
 
@@ -10,23 +13,57 @@ const Meal = ({ dayList, currentDate }) => {
   const [mealItemName, setMealItemName] = useState(undefined);
   const selectedDate = dayList.find(({ date }) => date === currentDate);
   const { data: session } = useSession();
-  
+  const dispatch = useDispatch();
+
   const handleOnChangeMealItem = e => {
     setMealItemName(e.target.value);
   };
 
   const addMealToDiet = meal => {
-    const { property } = meal;
+    if (mealItemName.trim().length > 0) {
+      const { property } = meal;
+      const data = {
+        email: session?.user?.email,
+        date: currentDate,
+        mealName: property,
+        item: mealItemName.trim(),
+      };
+
+      updateMealtoDiet({ data })
+        .then(() => {
+          getUserDietList({ data: { email: data.email } })
+            .then(dietListResponse => {
+              const { dietList } = dietListResponse
+              dispatch(setDietList(dietList));
+            })
+            .catch(error => {
+              console.log('error :>> ', error);
+            })
+        })
+        .catch(error => {
+          console.log('error :>> ', error);
+        })
+    }
+  }
+
+  const deleteMeal = (item, meal) => {
     const data = {
-      email: session?.user?.email,
+      email: session.user.email,
+      itemId: item._id,
+      mealName: meal.property,
       date: currentDate,
-      mealName: property,
-      item: mealItemName,
     };
 
-    axios.put("http://localhost:3002/diet/updateMealtoDiet", data)
-      .then(response => {
-        console.log('response :>> ', response);
+    deleteMealItem({ data })
+      .then(() => {
+        getUserDietList({ data: { email: data.email } })
+          .then(dietListResponse => {
+            const { dietList } = dietListResponse
+            dispatch(setDietList(dietList));
+          })
+          .catch(error => {
+            console.log('error :>> ', error);
+          })
       })
       .catch(error => {
         console.log('error :>> ', error);
@@ -38,7 +75,7 @@ const Meal = ({ dayList, currentDate }) => {
       {
         selectedDate?.meals.map(meal => {
           return (
-            <div key={meal.property} className={styles.addMealWrapper}>
+            <div key={meal._id} className={styles.addMealWrapper}>
               <h4 className={styles.mealName}>{meal?.name}:</h4>
               <div>
                 <div className={styles.addMealArea}>
@@ -49,7 +86,16 @@ const Meal = ({ dayList, currentDate }) => {
                   <ul>
                     {meal?.items.map(item => {
                       return (
-                        <li key={item.id}>{item.name}</li>
+                        <li key={item._id} className={styles.mealItem}>
+                          <span className={styles.mealName}>{item.name}</span>
+                          <Button
+                            danger
+                            type="primary"
+                            shape="circle"
+                            icon={<DeleteOutlined />}
+                            onClick={() => deleteMeal(item, meal)}
+                            className={styles.btnMealDelete} />
+                        </li>
                       )
                     })}
                   </ul>
