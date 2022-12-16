@@ -4,6 +4,7 @@ import { Button, Form, Input } from "antd";
 import { signIn } from "next-auth/react";
 import Router from "next/router";
 import { toast } from 'react-toastify';
+import Link from "next/link";
 
 const Login = () => {
   const [isSignInPending, setSignInPending] = useState(false);
@@ -77,7 +78,7 @@ const Login = () => {
             Giriş Yap
           </Button>
         </Form>
-        <p className="txt-register">Hesabın yoksa <a href="/auth/register">Kayıt ol!</a></p>
+        <p className="txt-register">Hesabın yoksa <Link href="/auth/register">Kayıt ol!</Link></p>
       </div>
     </div>
   );
