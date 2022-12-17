@@ -26,3 +26,9 @@ a {
   color: #5D3EBC !important;
   font-weight: 400 !important;
 }
+
+@media screen and (max-width: 414px) {
+  .ant-tabs-tabpane {
+    padding-left: 8px !important;
+  }
+}

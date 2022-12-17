@@ -6,13 +6,16 @@ import Router from "next/router";
 import { toast } from 'react-toastify';
 import Link from "next/link";
 
+import { ROUTES } from '@/constants/routes';
 import { Header } from '@/components/index';
+
+import styles from './styles.module.scss';
 
 const Login = () => {
   const [isSignInPending, setSignInPending] = useState(false);
 
   const redirectToHome = () => {
-    Router.push("/home");    
+    Router.push(ROUTES.HOME);    
   };
 
   const onFinish = async values => {
@@ -28,16 +31,15 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Head>
         <title>Giriş Yap</title>
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="login-form-wrapper">
-        <h3 className="title">Giriş Yap</h3>
-
+      <div className={styles.loginFormWrapper}>
+        <h3 className={styles.title}>Giriş Yap</h3>
         <Form
           name="basic"
           layout="vertical"
@@ -76,11 +78,11 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className="btn-login" loading={isSignInPending}>
+          <Button type="primary" htmlType="submit" className={styles.btnLogin} loading={isSignInPending}>
             Giriş Yap
           </Button>
         </Form>
-        <p className="txt-register">Hesabın yoksa <Link href="/auth/register">Kayıt ol!</Link></p>
+        <p className={styles.txtRegister}>Hesabın yoksa <Link href={ROUTES.REGISTER_PAGE}>Kayıt ol!</Link></p>
       </div>
     </div>
   );

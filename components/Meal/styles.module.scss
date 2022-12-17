@@ -32,7 +32,7 @@ $small: 414px;
       }
 
       button {
-        background: #5D3EBC;
+        background: $primary-color;
         color: white;
         border: none;
       }
@@ -54,9 +54,13 @@ $small: 414px;
 @media screen and (max-width: $small) {
   .mealComponent {
     padding: 1rem !important;
-    .addMealArea {
-      width: 100% !important;      
+    .addMealWrapper {
+      .addMealArea {
+        width: 100% !important;      
+      }
+      .mealItem {
+        padding: 8px;
+      }
     }
   }
-  
 }

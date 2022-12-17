@@ -7,10 +7,13 @@ import Link from "next/link";
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 
+import { ROUTES } from '@/constants/routes';
 import { createDietList, getUserDietList } from '@/services/diet';
 import { Header } from '@/components/index';
 import { registerUser } from '@/services/auth';
 import { setDietList } from '@/store/slices/dietListSlice';
+
+import styles from './styles.module.scss';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -42,8 +45,8 @@ const Register = () => {
 
   const redirectToHome = () => {
     const { pathname } = Router;
-    if (pathname === "/auth/register") {
-      Router.push("/home");
+    if (pathname === ROUTES.REGISTER_PAGE) {
+      Router.push(ROUTES.HOME);
     }
   };
 
@@ -54,7 +57,7 @@ const Register = () => {
         redirectToHome();
       })
       .catch((error) => {
-        toast(error)
+        toast(error.response.data.error);
       });
     toast(res)
   };
@@ -72,16 +75,15 @@ const Register = () => {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Head>
         <title>Kayıt Ol</title>
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="login-form-wrapper">
-        <h3 className="title">Kayıt Ol</h3>
-
+      <div className={styles.registerFormWrapper}>
+        <h3 className={styles.title}>Kayıt Ol</h3>
         <Form
           form={form}
           name="basic"
@@ -133,11 +135,11 @@ const Register = () => {
             <Input.Password />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className="btn-register">
+          <Button type="primary" htmlType="submit" className={styles.btnRegister}>
             Kayıt Ol
           </Button>
         </Form>
-        <p className="txt-login">Hesabın varsa <Link href="/auth/login">Giriş Yap!</Link></p>
+        <p className={styles.txtLogin}>Hesabın varsa <Link href={ROUTES.LOGIN_PAGE}>Giriş Yap!</Link></p>
       </div>
     </div>
   );

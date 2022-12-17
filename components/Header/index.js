@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DownOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import HomeImage from "public/home-image.png";
+import { ROUTES } from '@/constants/routes';
 
 import styles from './styles.module.scss';
 
@@ -17,7 +18,9 @@ const Header = () => {
     {
       key: '1',
       label: (
-        <Text onClick={() => signOut()}>Çıkış Yap</Text>
+        <Text onClick={() => signOut({ callbackUrl: ROUTES.APP_PAGE })}>
+          Çıkış Yap
+        </Text>
       ),
       icon: <LogoutOutlined />,
     }
@@ -37,7 +40,7 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <Link href="/">
+      <Link href={ROUTES.APP_PAGE}>
         <div className={styles.logoWrapper}>
           <Image src={HomeImage} alt="site-logo" height={50} width={50} />
           <h3 className={styles.title}>Diyet Defteri</h3>

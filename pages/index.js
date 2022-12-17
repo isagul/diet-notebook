@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
-import { Button } from 'antd';
-import { ToastContainer } from 'react-toastify';
+import { Button, Space } from 'antd';
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from 'next-auth/react';
 import Router from "next/router";
 
+import { ROUTES } from '@/constants/routes';
 import { Header } from '@/components/index';
 import useWindowSize from '@/hooks/useWindowSize';
 import HomeImage from '@/public/home-image.png';
-import styles from '@/styles/Home.module.css';
+import styles from '@/styles/app-page.module.scss';
 
-export default function Home() {  
-  const size = useWindowSize();  
+export default function Home() {
+  const size = useWindowSize();
   const { data: session } = useSession();
 
   useEffect(() => {
     if (session) {
-      Router.push("/home");
+      Router.push(ROUTES.HOME);
     }
   }, [session]);
 
@@ -29,15 +29,19 @@ export default function Home() {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ToastContainer position="top-right" autoClose={2000} />
       <Header />
       <div className={styles.homeTextWrapper}>
         <div className={styles.homeLeftArea}>
           <h1>Online diyet defterin her zaman yanında.</h1>
           <p>Her pazartesi kesin kararlar alarak diyete başlayanlar için artık bu diyeti gerçekleştirmelerine yardımcı olacak online bir defter var.</p>
-          <Link href="/auth/register">
-            <Button>Kayıt Ol</Button>
-          </Link>
+          <Space size="small">
+            <Link href={ROUTES.LOGIN_PAGE}>
+              <Button className={styles.btnLogin}>Giriş Yap</Button>
+            </Link>
+            <Link href={ROUTES.REGISTER_PAGE}>
+              <Button className={styles.btnRegister}>Kayıt Ol</Button>
+            </Link>
+          </Space>
         </div>
         {size?.width > 475 && (
           <div className={styles.homeRightArea}>

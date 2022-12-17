@@ -13,21 +13,21 @@ const validateForm = async (
   password
 ) => {
   if (username.length < 3) {
-    return { error: "Username must have 3 or more characters" };
+    return { error: "Kullanıcı adı en az 3 karakterden oluşmalıdır." };
   }
   if (!validateEmail(email)) {
-    return { error: "Email is invalid" };
+    return { error: "Geçersiz email formatı." };
   }
 
   await dbConnect();
   const emailUser = await User.findOne({ email: email });
 
   if (emailUser) {
-    return { error: "Email already exists" };
+    return { error: "Bu email adresine ait bir kullanıcı bulunmaktadır." };
   }
 
   if (password.length < 5) {
-    return { error: "Password must have 5 or more characters" };
+    return { error: "Şifre en az 5 karakterden oluşmalıdır." };
   }
 
   return null;
@@ -66,7 +66,7 @@ export default async function handler(
   newUser
     .save()
     .then(() =>
-      res.status(200).json({ msg: "Successfuly created new User: " + newUser })
+      res.status(200).json({ msg: "Successfuly created new user: " + newUser })
     )
     .catch((err) =>
       res.status(400).json({ error: "Error on '/api/register': " + err })

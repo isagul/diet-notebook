@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
-import { useSession } from "next-auth/react";
+import { useEffect } from 'react';
 import { useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
 
-import { getUserDietList } from '@/services/diet';
-import { setDietList } from '@/store/slices/dietListSlice';
-import { Header, DateSlider } from '@/components/index';
 import LoginPage from '@/pages/auth/login';
-import styles from '@/styles/Home.module.css';
+import { getUserDietList } from '@/services/diet';
+import { Header, DateSlider } from '@/components/index';
+import { setDietList } from '@/store/slices/dietListSlice';
+
+import styles from './styles.module.scss';
 
 const SESSION_STATUS = {
   AUTHENTICATED: "authenticated",

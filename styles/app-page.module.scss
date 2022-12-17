@@ -1,0 +1,55 @@
+$small: 414px;
+
+.container {
+  min-height: 100vh;
+  max-width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+
+  .homeTextWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 80vh;
+
+    .homeLeftArea {
+      color: #fff;
+      p {
+          color: hsla(0,0%,90%,.8);
+      }
+      .btnRegister {
+        background: $secondary-color;
+        color: white;
+        border: none;
+        width: 100px;
+        opacity: .9;
+
+        &:hover {
+          opacity: 1;
+          color: white;
+        }
+      }
+
+      .btnLogin {
+        background: #F8E38F;
+        color: $primary-color;
+        border: none;
+        width: 100px;
+        opacity: .9;
+
+        &:hover {
+          opacity: 1;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $small) {
+  .container {
+    padding: 8px;
+  }
+}

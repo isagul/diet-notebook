@@ -11,6 +11,7 @@
       "@/store/*": ["store/*"],
       "@/public/*": ["public/*"],
       "@/hooks/*": ["hooks/*"],
+      "@/constants/*": ["constants/*"],
     }
   }
 }
