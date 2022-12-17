@@ -1,16 +1,26 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { Button } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from 'next-auth/react';
+import Router from "next/router";
 
 import { Header } from '@/components/index';
 import useWindowSize from '@/hooks/useWindowSize';
-import HomeImage from '@/public/4726369.png';
+import HomeImage from '@/public/home-image.png';
 import styles from '@/styles/Home.module.css';
 
 export default function Home() {  
   const size = useWindowSize();  
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      Router.push("/home");
+    }
+  }, [session]);
 
   return (
     <div className={styles.container}>
