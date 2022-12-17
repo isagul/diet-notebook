@@ -1,50 +1,16 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
-import { Divider } from 'antd';
-import { useSession } from "next-auth/react";
+import { Button } from 'antd';
 import { ToastContainer } from 'react-toastify';
-import { useDispatch } from "react-redux";
+import Link from "next/link";
+import Image from "next/image";
 
-import { getUserDietList } from '@/services/diet';
-import { setDietList } from '@/store/slices/dietListSlice';
-import { Header, DateSlider } from '@/components/index';
-import LoginPage from '@/pages/auth/login';
+import { Header } from '@/components/index';
+import useWindowSize from '@/hooks/useWindowSize';
+import HomeImage from '@/public/4726369.png';
 import styles from '@/styles/Home.module.css';
 
-const SESSION_STATUS = {
-  AUTHENTICATED: "authenticated",
-  UNAUTHENTICATED: "unauthenticated",
-};
-
-export default function Home() {
-  const { status } = useSession();
-  const dispatch = useDispatch();
-  const { data: session } = useSession();  
-
-  useEffect(() => {
-    if (session ) {
-      const data = {
-        email: session?.user?.email,
-      };
-
-      getUserDietList({ data })
-        .then(response => {
-          const { dietList } = response
-          dispatch(setDietList(dietList));
-        })
-        .catch(error => {
-          console.log('error :>> ', error);
-        })
-    }
-  }, [session, dispatch])
-
-  const MainContent = () => (
-    <div className={styles.mainContent}>
-      <Header />
-      <Divider />
-      <DateSlider />
-    </div>
-  );
+export default function Home() {  
+  const size = useWindowSize();  
 
   return (
     <div className={styles.container}>
@@ -54,12 +20,21 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ToastContainer position="top-right" autoClose={2000} />
-      {status === SESSION_STATUS.AUTHENTICATED && (
-        <MainContent />
-      )}
-      {status === SESSION_STATUS.UNAUTHENTICATED && (
-        <LoginPage />
-      )}
+      <Header />
+      <div className={styles.homeTextWrapper}>
+        <div className={styles.homeLeftArea}>
+          <h1>Online diyet defterin her zaman yanında.</h1>
+          <p>Her pazartesi kesin kararlar alarak diyete başlayanlar için artık bu diyeti gerçekleştirmelerine yardımcı olacak online bir defter var.</p>
+          <Link href="/auth/register">
+            <Button>Kayıt Ol</Button>
+          </Link>
+        </div>
+        {size?.width > 475 && (
+          <div className={styles.homeRightArea}>
+            <Image src={HomeImage} alt="home-image" width={350} height={350} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

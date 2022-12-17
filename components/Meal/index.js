@@ -80,7 +80,7 @@ const Meal = ({ dayList, currentDate }) => {
               <div>
                 <div className={styles.addMealArea}>
                   <Input placeholder='Neler yedin?' onChange={e => handleOnChangeMealItem(e, meal)} />
-                  <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)} />
+                  <Button shape="circle" icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)} />
                 </div>
                 <div>
                   <ul>

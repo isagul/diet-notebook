@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 
 import { createDietList, getUserDietList } from '@/services/diet';
+import { Header } from '@/components/index';
 import { registerUser } from '@/services/auth';
 import { setDietList } from '@/store/slices/dietListSlice';
 
@@ -42,7 +43,7 @@ const Register = () => {
   const redirectToHome = () => {
     const { pathname } = Router;
     if (pathname === "/auth/register") {
-      Router.push("/");
+      Router.push("/home");
     }
   };
 
@@ -77,7 +78,7 @@ const Register = () => {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Header />
       <div className="login-form-wrapper">
         <h3 className="title">Kayıt Ol</h3>
 

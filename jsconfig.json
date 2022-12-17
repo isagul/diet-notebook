@@ -9,6 +9,8 @@
       "@/lib/*": ["lib/*"],
       "@/services/*": ["services/*"],
       "@/store/*": ["store/*"],
+      "@/public/*": ["public/*"],
+      "@/hooks/*": ["hooks/*"],
     }
   }
 }

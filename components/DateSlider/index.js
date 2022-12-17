@@ -22,14 +22,8 @@ const DateSlider = () => {
 
   const dayContent = () => {
     return (
-      <div className={styles.dateContentWrapper}>
-        <div className={styles.title}>
-          <h3>Günlük Menü ({clickedDate}) </h3>
-          {/* <p>Tarih: {clickedDate}</p> */}
-        </div>
-        <div className={styles.mealWrapper}>
-          <Meal dayList={dietList} currentDate={clickedDate} />
-        </div>
+      <div>
+        <Meal dayList={dietList} currentDate={clickedDate} />
       </div>
     )
   };
@@ -49,6 +43,10 @@ const DateSlider = () => {
 
   return (
     <div className={styles.dateSliderComponent}>
+      <div className={styles.titleWrapper}>
+        <h3>Günlük Menü</h3>
+        <p>Tarih: {clickedDate}</p>
+      </div>
       <Tabs
         defaultActiveKey={DEFAULT_ACTIVE_KEY}
         tabPosition="left"

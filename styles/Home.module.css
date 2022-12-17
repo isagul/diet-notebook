@@ -1,5 +1,9 @@
 .container {
   min-height: 100vh;
+  max-width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
 }
 
 .main {
@@ -15,3 +19,34 @@
 .mainContent {
   padding: 0 1rem;
 }
+
+.homeTextWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 80vh;
+}
+
+.homeLeftArea {
+  color: #fff;
+}
+
+.homeLeftArea p {
+  color: hsla(0,0%,90%,.8);
+}
+
+.homeLeftArea button {
+  background: #90A566;
+  color: white;
+  border: none;
+  width: 100px;
+  opacity: .9;
+}
+
+.homeLeftArea button:hover {
+  opacity: 1;
+  color: white !important;
+}
+
+.homeRightArea {}

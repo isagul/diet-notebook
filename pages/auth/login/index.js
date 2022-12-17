@@ -6,11 +6,13 @@ import Router from "next/router";
 import { toast } from 'react-toastify';
 import Link from "next/link";
 
+import { Header } from '@/components/index';
+
 const Login = () => {
   const [isSignInPending, setSignInPending] = useState(false);
 
   const redirectToHome = () => {
-    Router.push("/");    
+    Router.push("/home");    
   };
 
   const onFinish = async values => {
@@ -32,7 +34,7 @@ const Login = () => {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Header />
       <div className="login-form-wrapper">
         <h3 className="title">Giriş Yap</h3>
 
