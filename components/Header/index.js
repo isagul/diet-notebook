@@ -3,6 +3,7 @@ import { Button, Dropdown, Space, Typography } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { DownOutlined, LogoutOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 import HomeImage from "public/home-image.png";
 import { ROUTES } from '@/constants/routes';
@@ -12,7 +13,8 @@ import styles from './styles.module.scss';
 const { Text } = Typography;
 
 const Header = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   const dropdownMenuItems = [
     {
@@ -48,7 +50,7 @@ const Header = () => {
       </Link>
 
       {
-        session && (
+        session && (router.pathname !== ROUTES.LOGIN_PAGE && router.pathname !== ROUTES.REGISTER_PAGE) && (
           <UserDropdown />
         )
       }

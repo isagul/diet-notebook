@@ -10,9 +10,9 @@ $small: 414px;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    color: #90A566;
+    color: $secondary-color;
 
-    p, h3 {
+    h3, h4 {
       margin: 0
     }
   }

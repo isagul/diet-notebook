@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { Button, Form, Input } from "antd";
 import { signIn } from "next-auth/react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
 import Link from "next/link";
 
@@ -13,9 +13,10 @@ import styles from './styles.module.scss';
 
 const Login = () => {
   const [isSignInPending, setSignInPending] = useState(false);
+  const router = useRouter();
 
   const redirectToHome = () => {
-    Router.push(ROUTES.HOME);    
+    router.push(ROUTES.HOME);    
   };
 
   const onFinish = async values => {

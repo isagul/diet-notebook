@@ -123,8 +123,8 @@ const DateSlider = () => {
   return (
     <div className={styles.dateSliderComponent}>
       <div className={styles.titleWrapper}>
-        <h3>Günlük Menü</h3>
-        <p>Tarih: {clickedDate}</p>
+        <h3>Günlük Liste</h3>
+        <h4>Tarih: {clickedDate}</h4>
       </div>
       <Tabs
         defaultActiveKey={DEFAULT_ACTIVE_KEY}

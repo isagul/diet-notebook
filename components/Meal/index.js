@@ -1,13 +1,15 @@
+import Image from "next/image";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
-import { Input, Button, Divider, Space } from 'antd';
-import { DeleteOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Input, Button, Divider, Space, Popconfirm, List, Empty } from 'antd';
 
 import { UpdateMealModal } from '@/components/index';
 import { setDietList } from '@/store/slices/dietListSlice';
 import { updateMealtoDiet, getUserDietList, deleteMealItem } from '@/services/diet';
+import HealthyFoodIcon from '@/public/healthy-food-icon.png';
 
 import styles from './styles.module.scss';
 
@@ -119,10 +121,10 @@ const Meal = ({ dayList, currentDate }) => {
                     onChange={e => handleOnChangeAddMealItem(e, meal)}
                     value={mealItemName[meal?.property]}
                   />
-                  <Button shape="circle" icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)} />
+                  <Button onClick={() => addMealToDiet(meal)}>Ekle</Button>
                 </div>
                 <div>
-                  <ul>
+                  {/* <ul>
                     {meal?.items.map(item => {
                       return (
                         <li key={item._id} className={styles.mealItem}>
@@ -134,19 +136,63 @@ const Meal = ({ dayList, currentDate }) => {
                               icon={<EditOutlined />}
                               onClick={() => handleOnClickEditMealItem(item, meal)}
                             />
+                            <Popconfirm
+                              title="Silmek istediğinden emin misin?"
+                              onConfirm={() => handleOnClickDeleteMealItem(item, meal)}
+                              okText="Evet"
+                              cancelText="Hayır"
+                            >
+                              <Button
+                                danger
+                                type="primary"
+                                shape="circle"
+                                icon={<DeleteOutlined />}
+                                className={styles.btnMealDelete}
+                              />
+                            </Popconfirm>
+
+                          </Space>
+                        </li>
+                      )
+                    })}
+                  </ul> */}
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={meal?.items}
+                    renderItem={item => (
+                      <List.Item>
+                        <List.Item.Meta
+                          avatar={<Image src={HealthyFoodIcon} alt="list-image" height={30} width={30} />}
+                          title={<span>{item.name}</span>}
+                        />
+                        <Space size="small">
+                          <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<EditOutlined />}
+                            onClick={() => handleOnClickEditMealItem(item, meal)}
+                            className={styles.btnMealEdit}
+                          />
+                          <Popconfirm
+                            title="Silmek istediğinden emin misin?"
+                            onConfirm={() => handleOnClickDeleteMealItem(item, meal)}
+                            okText="Evet"
+                            cancelText="Hayır"
+                          >
                             <Button
                               danger
                               type="primary"
                               shape="circle"
                               icon={<DeleteOutlined />}
-                              onClick={() => handleOnClickDeleteMealItem(item, meal)}
                               className={styles.btnMealDelete}
                             />
-                          </Space>
-                        </li>
-                      )
-                    })}
-                  </ul>
+                          </Popconfirm>
+
+                        </Space>
+                      </List.Item>
+                    )}
+                    locale={{ emptyText: <Empty description="Listeni oluştur." /> }}
+                  />
                 </div>
               </div>
               <Divider />

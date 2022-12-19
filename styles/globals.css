@@ -22,6 +22,10 @@ a {
   box-sizing: border-box;
 }
 
+.ant-tabs-tab-active {
+  background-color: #FFD300!important;
+}
+
 .ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #5D3EBC !important;
   font-weight: 400 !important;
@@ -35,8 +39,19 @@ a {
   border-color: #5D3EBC !important;
 }
 
+.ant-list-item-meta {
+  align-items: center !important;
+}
+
+.ant-list-item-meta-title {
+  margin-bottom: 0 !important;
+}
+
 @media screen and (max-width: 414px) {
   .ant-tabs-tabpane {
     padding-left: 8px !important;
+  }
+  .ant-list-item {
+    padding: 12px 4px !important;
   }
 }
