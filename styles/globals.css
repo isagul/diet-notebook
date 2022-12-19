@@ -54,4 +54,7 @@ a {
   .ant-list-item {
     padding: 12px 4px !important;
   }
+  .ant-tabs-tab {
+    padding: 6px !important;
+  }
 }
