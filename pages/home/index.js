@@ -7,6 +7,7 @@ import LoginPage from '@/pages/auth/login';
 import { getUserDietList } from '@/services/diet';
 import { Header, DateSlider } from '@/components/index';
 import { setDietList } from '@/store/slices/dietListSlice';
+import checkUserAuthenticated from '@/utils/checkUserAuthenticated';
 
 import styles from './styles.module.scss';
 
@@ -54,8 +55,16 @@ export default function HomePage() {
         <MainContent />
       )}
       {status === SESSION_STATUS.UNAUTHENTICATED && (
-        <MainContent />
+        <LoginPage />
       )}
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  return checkUserAuthenticated(context, ({ session }) => {
+    return {
+      props: { session }
+    }
+  })
 }
