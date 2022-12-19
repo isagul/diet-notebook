@@ -1,32 +1,51 @@
 import { useState } from 'react';
-import { Input, Button, Divider } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { useSession } from 'next-auth/react';
+import { Input, Button, Divider, Space } from 'antd';
+import { DeleteOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
 
-import { updateMealtoDiet, getUserDietList, deleteMealItem } from '@/services/diet';
+import { UpdateMealModal } from '@/components/index';
 import { setDietList } from '@/store/slices/dietListSlice';
+import { updateMealtoDiet, getUserDietList, deleteMealItem } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
+const defaultMealNames = {
+  breakfast: undefined,
+  firstSnack: undefined,
+  afternoon: undefined,
+  secondSnack: undefined,
+  thirdSnack: undefined,
+  dinner: undefined,
+};
+
 const Meal = ({ dayList, currentDate }) => {
-  const [mealItemName, setMealItemName] = useState(undefined);
+  const [mealItemName, setMealItemName] = useState(defaultMealNames);
+  const [selectedMeal, setSelectedMeal] = useState(undefined);
+  const [selectedMealItem, setSelectedMealItem] = useState(undefined);
+  const [isUpdateMealModalVisible, setIsUpdateMealModalVisible] = useState(false);
   const selectedDate = dayList?.find(({ date }) => date === currentDate);
   const { data: session } = useSession();
   const dispatch = useDispatch();
 
-  const handleOnChangeMealItem = e => {
-    setMealItemName(e.target.value);
+  const handleOnChangeAddMealItem = (e, meal) => {
+    const { property } = meal;
+    setMealItemName({
+      ...mealItemName,
+      [property]: e.target.value,
+    });
   };
 
   const addMealToDiet = meal => {
-    if (mealItemName.trim().length > 0) {
+    const { property } = meal;
+    if (mealItemName[property] && mealItemName[property].trim().length > 0) {
       const { property } = meal;
       const data = {
         email: session?.user?.email,
         date: currentDate,
         mealName: property,
-        item: mealItemName.trim(),
+        item: mealItemName[property].trim(),
       };
 
       updateMealtoDiet({ data })
@@ -43,10 +62,15 @@ const Meal = ({ dayList, currentDate }) => {
         .catch(error => {
           console.log('error :>> ', error);
         })
+        .finally(() => {
+          setMealItemName(defaultMealNames);
+        })
+    } else {
+      toast("Alan boş bırakılamaz.")
     }
   }
 
-  const deleteMeal = (item, meal) => {
+  const handleOnClickDeleteMealItem = (item, meal) => {
     const data = {
       email: session.user.email,
       itemId: item._id,
@@ -70,6 +94,16 @@ const Meal = ({ dayList, currentDate }) => {
       })
   }
 
+  const handleOnClickEditMealItem = (item, meal) => {
+    setSelectedMealItem(item);
+    setSelectedMeal(meal);
+    setIsUpdateMealModalVisible(true);
+  }
+
+  const handleOnChangeUpdateMealModal = value => {
+    setIsUpdateMealModalVisible(value);
+  }
+
   return (
     <div className={styles.mealComponent}>
       {
@@ -79,7 +113,12 @@ const Meal = ({ dayList, currentDate }) => {
               <h4 className={styles.mealName}>{meal?.name}:</h4>
               <div>
                 <div className={styles.addMealArea}>
-                  <Input placeholder='Neler yedin?' onChange={e => handleOnChangeMealItem(e, meal)} />
+                  <Input
+                    placeholder='Neler yedin?'
+                    onPressEnter={() => addMealToDiet(meal)}
+                    onChange={e => handleOnChangeAddMealItem(e, meal)}
+                    value={mealItemName[meal?.property]}
+                  />
                   <Button shape="circle" icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)} />
                 </div>
                 <div>
@@ -88,13 +127,22 @@ const Meal = ({ dayList, currentDate }) => {
                       return (
                         <li key={item._id} className={styles.mealItem}>
                           <span className={styles.mealName}>{item.name}</span>
-                          <Button
-                            danger
-                            type="primary"
-                            shape="circle"
-                            icon={<DeleteOutlined />}
-                            onClick={() => deleteMeal(item, meal)}
-                            className={styles.btnMealDelete} />
+                          <Space size="small">
+                            <Button
+                              type="primary"
+                              shape="circle"
+                              icon={<EditOutlined />}
+                              onClick={() => handleOnClickEditMealItem(item, meal)}
+                            />
+                            <Button
+                              danger
+                              type="primary"
+                              shape="circle"
+                              icon={<DeleteOutlined />}
+                              onClick={() => handleOnClickDeleteMealItem(item, meal)}
+                              className={styles.btnMealDelete}
+                            />
+                          </Space>
                         </li>
                       )
                     })}
@@ -106,6 +154,13 @@ const Meal = ({ dayList, currentDate }) => {
           )
         })
       }
+      <UpdateMealModal
+        meal={selectedMeal}
+        mealItem={selectedMealItem}
+        currentDate={currentDate}
+        isModalVisible={isUpdateMealModalVisible}
+        handleVisibleChange={handleOnChangeUpdateMealModal}
+      />
     </div>
   )
 }

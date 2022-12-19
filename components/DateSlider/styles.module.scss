@@ -16,6 +16,23 @@ $small: 414px;
       margin: 0
     }
   }
+  .dayContentWrapper {
+    .dailyTargetsWrapper {
+      display: flex;
+      margin-bottom: 8px;
+      flex-direction: column;
+      .content {
+        .formContent {
+          display: flex;
+          gap: 8px;
+        }
+        .btnSaveDailyInfo {
+          background-color: $primary-color;
+          border: none;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: $small) {

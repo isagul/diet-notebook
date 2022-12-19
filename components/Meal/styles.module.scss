@@ -12,6 +12,7 @@ $small: 414px;
     align-self: flex-start;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-right: 8px;
   }
 
   .addMealWrapper {
@@ -39,14 +40,17 @@ $small: 414px;
     }
     ul {
       padding-left: 0;
+      background: #f1f1f1;
+      border-radius: 3px;
+      margin-bottom: 0;
     }
     .mealItem {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid #f3f3f3;
-      padding: 8px 16px;
-      &:nth-child(odd) { background-color:#ececec; }
-      &:nth-child(even) { background-color:#f4f4f4; }
+      padding: 8px 12px;
+      // &:nth-child(odd) { background-color:#ececec; }
+      // &:nth-child(even) { background-color:#f4f4f4; }
     }
   }  
 }
