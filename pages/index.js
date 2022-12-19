@@ -4,7 +4,7 @@ import { Button, Space } from 'antd';
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from 'next-auth/react';
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 import { ROUTES } from '@/constants/routes';
 import { Header } from '@/components/index';
@@ -15,12 +15,13 @@ import styles from '@/styles/app-page.module.scss';
 export default function Home() {
   const size = useWindowSize();
   const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (session) {
-      Router.push(ROUTES.HOME);
+      router.push(ROUTES.HOME);
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <div className={styles.container}>
