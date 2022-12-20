@@ -47,6 +47,17 @@ a {
   margin-bottom: 0 !important;
 }
 
+.ant-spin {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100vh !important;
+}
+
+.ant-spin-dot-item {
+  background-color: #fff !important;
+}
+
 @media screen and (max-width: 414px) {
   .ant-tabs-tabpane {
     padding-left: 8px !important;

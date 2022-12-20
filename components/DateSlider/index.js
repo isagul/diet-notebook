@@ -7,37 +7,37 @@ import { Input, Tabs, Form, Button, Row, Col } from 'antd';
 
 import { Meal } from '@/components/index';
 import { setDietList } from '@/store/slices/dietListSlice';
-import { getAllDaysInMonth } from '@/utils/getAllDaysInMonth';
 import { createDailyResults, getUserDietList } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
-const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
 
-const formatDate = day => {
-  const d = new Date(day);
-  return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
-};
-
 const DateSlider = () => {
-  const now = new Date();
-  const days = getAllDaysInMonth(now.getFullYear(), now.getMonth());
-  const [clickedDate, setClickedDate] = useState(formatDate(days[DEFAULT_ACTIVE_KEY]));
   const dietList = useSelector(state => state.dietList.data);
+  const [clickedDate, setClickedDate] = useState(undefined);
+  const [defaultActiveKey, setDefaultActiveKey] = useState(String(new Date().getDate() - 1));
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   useEffect(() => {
-    const currentDate = dietList.find(dietItem => dietItem.date === clickedDate);
-    if (currentDate) {
-      form.setFieldsValue({
-        stepCount: currentDate.stepCount,
-        waterAmount: currentDate.waterAmount,
-      })
+    if (dietList && dietList.length > 0) {
+      const currentDate = dietList[defaultActiveKey];
+      if (currentDate) {
+        form.setFieldsValue({
+          stepCount: currentDate.stepCount,
+          waterAmount: currentDate.waterAmount,
+        })
+      }
     }
-  }, [dietList, form, clickedDate]);
+  }, [dietList, form, defaultActiveKey]);
+
+  useEffect(() => {
+    if (dietList && dietList.length > 0) {
+      setClickedDate(dietList[defaultActiveKey].date)
+    }
+  }, [dietList, defaultActiveKey]);
 
   const onFinish = values => {
     const data = {
@@ -107,9 +107,9 @@ const DateSlider = () => {
     )
   };
 
-  const items = days.map((day, index) => {
+  const items = dietList.map((dietItem, index) => {
     return ({
-      label: formatDate(day),
+      label: dietItem.date,
       key: String(index),
       children: dayContent(),
     })
@@ -118,6 +118,7 @@ const DateSlider = () => {
   const handleOnTabsChange = activeKey => {
     const selectedDate = items.find(item => item.key === activeKey);
     setClickedDate(selectedDate.label);
+    setDefaultActiveKey(activeKey);
   }
 
   return (
@@ -126,14 +127,18 @@ const DateSlider = () => {
         <h3>Günlük Liste</h3>
         <h4>Tarih: {clickedDate}</h4>
       </div>
-      <Tabs
-        defaultActiveKey={DEFAULT_ACTIVE_KEY}
-        tabPosition="left"
-        size='small'
-        type='card'
-        items={items}
-        onChange={handleOnTabsChange}
-      />
+      {
+        dietList && dietList.length > 0 && (
+          <Tabs
+            activeKey={defaultActiveKey}
+            tabPosition="left"
+            size='small'
+            type='card'
+            items={items}
+            onChange={handleOnTabsChange}
+          />
+        )
+      }
     </div>
   )
 }

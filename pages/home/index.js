@@ -6,14 +6,10 @@ import { useSession } from "next-auth/react";
 import LoginPage from '@/pages/auth/login';
 import { getUserDietList } from '@/services/diet';
 import { Header, DateSlider } from '@/components/index';
+import { SESSION_STATUS } from '@/constants/sessionStatus';
 import { setDietList } from '@/store/slices/dietListSlice';
 
 import styles from './styles.module.scss';
-
-const SESSION_STATUS = {
-  AUTHENTICATED: "authenticated",
-  UNAUTHENTICATED: "unauthenticated",
-};
 
 export default function HomePage() {
   const dispatch = useDispatch();
