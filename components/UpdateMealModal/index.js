@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import { Input, Modal } from 'antd';
-import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
 
 import { setDietList } from '@/store/slices/dietListSlice';
 import { updateMealItem, getUserDietList } from '@/services/diet';
-
-import styles from './styles.module.scss';
 
 const UpdateMealModal = ({ meal, mealItem, currentDate, isModalVisible, handleVisibleChange }) => {
   const dispatch = useDispatch();
@@ -39,11 +38,11 @@ const UpdateMealModal = ({ meal, mealItem, currentDate, isModalVisible, handleVi
             dispatch(setDietList(dietList));
           })
           .catch(error => {
-            console.log('error :>> ', error);
+            toast(error.response.data.error);
           })
       })
       .catch(error => {
-        console.log('error :>> ', error);
+        toast(error.response.data.error);
       })
       .finally(() => {
         handleVisibleChange(false);

@@ -14,7 +14,6 @@
     "antd": "^5.0.4",
     "axios": "^1.2.1",
     "bcrypt": "^5.1.0",
-    "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "mongodb": "^4.12.1",
     "mongoose": "^6.8.0",
@@ -27,6 +26,8 @@
     "react-toastify": "^9.1.1"
   },
   "devDependencies": {
+    "eslint": "^8.30.0",
+    "eslint-config-airbnb": "^19.0.4",
     "sass": "^1.56.1"
   }
 }

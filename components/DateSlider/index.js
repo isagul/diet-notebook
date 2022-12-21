@@ -11,19 +11,20 @@ import { createDailyResults, getUserDietList } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
+const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
 
 const DateSlider = () => {
   const dietList = useSelector(state => state.dietList.data);
+  const [activeKey, setActiveKey] = useState(undefined);
   const [clickedDate, setClickedDate] = useState(undefined);
-  const [defaultActiveKey, setDefaultActiveKey] = useState(String(new Date().getDate() - 1));
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (dietList && dietList.length > 0) {
-      const currentDate = dietList[defaultActiveKey];
+      const currentDate = dietList[activeKey];
       if (currentDate) {
         form.setFieldsValue({
           stepCount: currentDate.stepCount,
@@ -31,15 +32,15 @@ const DateSlider = () => {
         })
       }
     }
-  }, [dietList, form, defaultActiveKey]);
+  }, [dietList, form, activeKey]);
 
   useEffect(() => {
-    if (dietList && dietList.length > 0) {
-      setClickedDate(dietList[defaultActiveKey].date)
+    if (dietList && dietList.length > 0 && clickedDate === undefined) {
+      setClickedDate(dietList[DEFAULT_ACTIVE_KEY].date)
     }
-  }, [dietList, defaultActiveKey]);
+  }, [dietList, clickedDate]);
 
-  const onFinish = values => {
+  const onFinishDailyResults = values => {
     const data = {
       ...values,
       email: session.user.email,
@@ -53,12 +54,12 @@ const DateSlider = () => {
             dispatch(setDietList(dietList));
           })
           .catch(error => {
-            console.log('error :>> ', error);
+            toast(error.response.data.error);
           })
         toast.success("Günlük sonuçlar başarıyla kaydedildi.")
       })
       .catch(error => {
-        console.log('error :>> ', error);
+        toast(error.response.data.error);
       })
   }
 
@@ -72,7 +73,7 @@ const DateSlider = () => {
                 <Form
                   name="basic"
                   layout="vertical"
-                  onFinish={onFinish}
+                  onFinish={onFinishDailyResults}
                   autoComplete="off"
                   form={form}
                 >
@@ -118,7 +119,7 @@ const DateSlider = () => {
   const handleOnTabsChange = activeKey => {
     const selectedDate = items.find(item => item.key === activeKey);
     setClickedDate(selectedDate.label);
-    setDefaultActiveKey(activeKey);
+    setActiveKey(activeKey);
   }
 
   return (
@@ -130,7 +131,8 @@ const DateSlider = () => {
       {
         dietList && dietList.length > 0 && (
           <Tabs
-            activeKey={defaultActiveKey}
+            defaultActiveKey={DEFAULT_ACTIVE_KEY}
+            activeKey={activeKey}
             tabPosition="left"
             size='small'
             type='card'

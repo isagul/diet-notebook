@@ -58,11 +58,11 @@ const Meal = ({ dayList, currentDate }) => {
               dispatch(setDietList(dietList));
             })
             .catch(error => {
-              console.log('error :>> ', error);
+              toast(error.response.data.error);
             })
         })
         .catch(error => {
-          console.log('error :>> ', error);
+          toast(error.response.data.error);
         })
         .finally(() => {
           setMealItemName(defaultMealNames);
@@ -88,11 +88,11 @@ const Meal = ({ dayList, currentDate }) => {
             dispatch(setDietList(dietList));
           })
           .catch(error => {
-            console.log('error :>> ', error);
+            toast(error.response.data.error);
           })
       })
       .catch(error => {
-        console.log('error :>> ', error);
+        toast(error.response.data.error);
       })
   }
 

@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { useEffect, useMemo } from 'react';
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 
@@ -27,15 +28,17 @@ export default function HomePage() {
           dispatch(setDietList(dietList));
         })
         .catch(error => {
-          console.log('error :>> ', error);
+          toast(error.response.data.error);
         })
     }
-  }, [session, dispatch])
+  }, [session, dispatch]);
+
+  const DateSliderMemo = useMemo(() => <DateSlider />, []);
 
   const MainContent = () => (
     <div className={styles.mainContent}>
       <Header />
-      <DateSlider />
+      { DateSliderMemo }
     </div>
   );
 

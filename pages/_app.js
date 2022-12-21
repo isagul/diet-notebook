@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     <SessionProvider
       session={pageProps.session}
       refetchInterval={60 * 60 * 24}
-      refetchOnWindowFocus={true}
+      refetchOnWindowFocus={false}
     >
       <Provider store={store}>
         <ToastContainer position="top-right" autoClose={2000} />

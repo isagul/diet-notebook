@@ -1,17 +1,17 @@
-import { useEffect } from "react";
 import Head from "next/head";
-import { Button, Form, Input } from "antd";
-import { signIn, useSession } from "next-auth/react";
-import Router from "next/router";
 import Link from "next/link";
+import Router from "next/router";
+import { useEffect } from "react";
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
+import { Button, Form, Input } from "antd";
+import { signIn, useSession } from "next-auth/react";
 
 import { ROUTES } from '@/constants/routes';
-import { createDietList, getUserDietList } from '@/services/diet';
 import { Header } from '@/components/index';
 import { registerUser } from '@/services/auth';
 import { setDietList } from '@/store/slices/dietListSlice';
+import { createDietList, getUserDietList } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
@@ -34,11 +34,11 @@ const Register = () => {
               dispatch(setDietList(dietList));
             })
             .catch(error => {
-              console.log('error :>> ', error);
+              toast(error.response.data.error);
             })
         })
         .catch(error => {
-          console.log('error :>> ', error);
+          toast(error.response.data.error);
         })
     }
   }, [session, dispatch])
