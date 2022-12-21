@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
-import { setDietList } from '@/store/slices/dietListSlice';
-import { updateMealItem, getUserDietList } from '@/services/diet';
+import { updateMealItem, getUserDietListRequest } from '@/services/diet';
 
 const UpdateMealModal = ({ meal, mealItem, currentDate, isModalVisible, handleVisibleChange }) => {
   const dispatch = useDispatch();
@@ -32,14 +31,7 @@ const UpdateMealModal = ({ meal, mealItem, currentDate, isModalVisible, handleVi
 
     updateMealItem({ data })
       .then(() => {
-        getUserDietList({ data: { email: data.email } })
-          .then(dietListResponse => {
-            const { dietList } = dietListResponse
-            dispatch(setDietList(dietList));
-          })
-          .catch(error => {
-            toast(error.response.data.error);
-          })
+        dispatch(getUserDietListRequest({ data: { email: data.email } }))
       })
       .catch(error => {
         toast(error.response.data.error);

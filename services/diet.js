@@ -1,14 +1,22 @@
 import axios from '@/lib/axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getUserDietList = ({ data }) => {
-  return axios({
-    method: 'GET',
-    url: '/diet/getUserDietList',
-    params: data,
-  }).then(response => {
-    return response.data;
-  });
-};
+export const getUserDietListRequest = createAsyncThunk(
+  'dietSlice/getUserDietListRequest',
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      return axios({
+        method: 'GET',
+        url: '/diet/getUserDietList',
+        params: data,
+      }).then(response => {
+        return response.data.dietList;
+      });
+    } catch (err) {
+      return rejectWithValue(err)
+    }
+  }
+)
 
 export const createDietList = ({ data }) => {
   return axios({

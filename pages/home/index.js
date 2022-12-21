@@ -1,14 +1,12 @@
 import Head from 'next/head';
-import { toast } from 'react-toastify';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 
 import LoginPage from '@/pages/auth/login';
-import { getUserDietList } from '@/services/diet';
 import { Header, DateSlider } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
-import { setDietList } from '@/store/slices/dietListSlice';
+import { getUserDietListRequest } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
@@ -21,24 +19,14 @@ export default function HomePage() {
       const data = {
         email: session?.user?.email,
       };
-
-      getUserDietList({ data })
-        .then(response => {
-          const { dietList } = response
-          dispatch(setDietList(dietList));
-        })
-        .catch(error => {
-          toast(error.response.data.error);
-        })
+      dispatch(getUserDietListRequest({ data }));
     }
   }, [session, dispatch]);
-
-  const DateSliderMemo = useMemo(() => <DateSlider />, []);
 
   const MainContent = () => (
     <div className={styles.mainContent}>
       <Header />
-      { DateSliderMemo }
+      <DateSlider />
     </div>
   );
 

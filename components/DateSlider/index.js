@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input, Tabs, Form, Button, Row, Col } from 'antd';
 
 import { Meal } from '@/components/index';
-import { setDietList } from '@/store/slices/dietListSlice';
-import { createDailyResults, getUserDietList } from '@/services/diet';
+import { createDailyResults, getUserDietListRequest } from '@/services/diet';
+import { getDietListSelector } from '@/store/selectors/dietListSelectors';
 
 import styles from './styles.module.scss';
 
@@ -15,7 +15,7 @@ const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
 
 const DateSlider = () => {
-  const dietList = useSelector(state => state.dietList.data);
+  const dietList = useSelector(getDietListSelector.getData);
   const [activeKey, setActiveKey] = useState(undefined);
   const [clickedDate, setClickedDate] = useState(undefined);
   const { data: session } = useSession();
@@ -48,14 +48,7 @@ const DateSlider = () => {
     }
     createDailyResults({ data })
       .then(() => {
-        getUserDietList({ data: { email: data.email } })
-          .then(dietListResponse => {
-            const { dietList } = dietListResponse
-            dispatch(setDietList(dietList));
-          })
-          .catch(error => {
-            toast(error.response.data.error);
-          })
+        dispatch(getUserDietListRequest({ data: { email: data.email } }))
         toast.success("Günlük sonuçlar başarıyla kaydedildi.")
       })
       .catch(error => {

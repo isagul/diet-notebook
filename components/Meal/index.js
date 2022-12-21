@@ -1,15 +1,15 @@
 import Image from "next/image";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSession } from 'next-auth/react';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Input, Button, Divider, Space, Popconfirm, List, Empty } from 'antd';
 
 import { UpdateMealModal } from '@/components/index';
-import { setDietList } from '@/store/slices/dietListSlice';
-import { updateMealtoDiet, getUserDietList, deleteMealItem } from '@/services/diet';
 import HealthyFoodIcon from '@/public/healthy-food-icon.png';
+import { getDietListSelector } from '@/store/selectors/dietListSelectors';
+import { updateMealtoDiet, deleteMealItem, getUserDietListRequest } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
@@ -23,6 +23,7 @@ const defaultMealNames = {
 };
 
 const Meal = ({ dayList, currentDate }) => {
+  const isDietListPending = useSelector(getDietListSelector.getIsPending);
   const [mealItemName, setMealItemName] = useState(defaultMealNames);
   const [selectedMeal, setSelectedMeal] = useState(undefined);
   const [selectedMealItem, setSelectedMealItem] = useState(undefined);
@@ -52,14 +53,7 @@ const Meal = ({ dayList, currentDate }) => {
 
       updateMealtoDiet({ data })
         .then(() => {
-          getUserDietList({ data: { email: data.email } })
-            .then(dietListResponse => {
-              const { dietList } = dietListResponse
-              dispatch(setDietList(dietList));
-            })
-            .catch(error => {
-              toast(error.response.data.error);
-            })
+          dispatch(getUserDietListRequest({ data: { email: data.email } }))
         })
         .catch(error => {
           toast(error.response.data.error);
@@ -82,14 +76,7 @@ const Meal = ({ dayList, currentDate }) => {
 
     deleteMealItem({ data })
       .then(() => {
-        getUserDietList({ data: { email: data.email } })
-          .then(dietListResponse => {
-            const { dietList } = dietListResponse
-            dispatch(setDietList(dietList));
-          })
-          .catch(error => {
-            toast(error.response.data.error);
-          })
+        dispatch(getUserDietListRequest({ data: { email: data.email } }))
       })
       .catch(error => {
         toast(error.response.data.error);
@@ -124,41 +111,10 @@ const Meal = ({ dayList, currentDate }) => {
                   <Button onClick={() => addMealToDiet(meal)}>Ekle</Button>
                 </div>
                 <div>
-                  {/* <ul>
-                    {meal?.items.map(item => {
-                      return (
-                        <li key={item._id} className={styles.mealItem}>
-                          <span className={styles.mealName}>{item.name}</span>
-                          <Space size="small">
-                            <Button
-                              type="primary"
-                              shape="circle"
-                              icon={<EditOutlined />}
-                              onClick={() => handleOnClickEditMealItem(item, meal)}
-                            />
-                            <Popconfirm
-                              title="Silmek istediğinden emin misin?"
-                              onConfirm={() => handleOnClickDeleteMealItem(item, meal)}
-                              okText="Evet"
-                              cancelText="Hayır"
-                            >
-                              <Button
-                                danger
-                                type="primary"
-                                shape="circle"
-                                icon={<DeleteOutlined />}
-                                className={styles.btnMealDelete}
-                              />
-                            </Popconfirm>
-
-                          </Space>
-                        </li>
-                      )
-                    })}
-                  </ul> */}
                   <List
                     itemLayout="horizontal"
                     dataSource={meal?.items}
+                    loading={isDietListPending}
                     renderItem={item => (
                       <List.Item>
                         <List.Item.Meta

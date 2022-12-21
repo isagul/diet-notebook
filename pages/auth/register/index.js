@@ -10,8 +10,7 @@ import { signIn, useSession } from "next-auth/react";
 import { ROUTES } from '@/constants/routes';
 import { Header } from '@/components/index';
 import { registerUser } from '@/services/auth';
-import { setDietList } from '@/store/slices/dietListSlice';
-import { createDietList, getUserDietList } from '@/services/diet';
+import { createDietList, getUserDietListRequest } from '@/services/diet';
 
 import styles from './styles.module.scss';
 
@@ -28,14 +27,7 @@ const Register = () => {
 
       createDietList({ data })
         .then(() => {
-          getUserDietList({ data: { email: data.email } })
-            .then(dietListResponse => {
-              const { dietList } = dietListResponse
-              dispatch(setDietList(dietList));
-            })
-            .catch(error => {
-              toast(error.response.data.error);
-            })
+          dispatch(getUserDietListRequest({ data: { email: data.email } }))
         })
         .catch(error => {
           toast(error.response.data.error);

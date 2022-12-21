@@ -1,22 +1,48 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getUserDietListRequest } from '@/services/diet';
 
 const initialState = {
-  data: [],
+  dietList: {
+    data: [],
+    isPending: false,
+    error: {},
+  },
 }
 
 export const dietListSlice = createSlice({
-  name: 'dietList',
+  name: 'dietSlice',
   initialState,
-  reducers: {
-    setDietList: (state, action) => {
+  extraReducers: {
+    [getUserDietListRequest.fulfilled]: (state, action) => {
       return {
         ...state,
-        data: action.payload
+        dietList: {
+          ...state.dietList,
+          data: action.payload,
+          isPending: false,
+        }
       };
     },
-  },
-})
-
-export const { setDietList } = dietListSlice.actions;
+    [getUserDietListRequest.rejected]: (state, action) => {
+      return {
+        ...state,
+        dietList: {
+          ...state.dietList,
+          error: action.payload,
+          isPending: false,
+        }
+      };
+    },
+    [getUserDietListRequest.pending]: (state, action) => {
+      return {
+        ...state,
+        dietList: {
+          ...state.dietList,
+          isPending: true,
+        }
+      };
+    },
+  }
+});
 
 export default dietListSlice.reducer;
