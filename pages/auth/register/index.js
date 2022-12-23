@@ -8,7 +8,6 @@ import { Button, Form, Input } from "antd";
 import { signIn, useSession } from "next-auth/react";
 
 import { ROUTES } from '@/constants/routes';
-import { Header } from '@/components/index';
 import { registerUser } from '@/services/auth';
 import { createDietList, getUserDietListRequest } from '@/services/diet';
 
@@ -73,7 +72,6 @@ const Register = () => {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       <div className={styles.registerFormWrapper}>
         <h3 className={styles.title}>Kayıt Ol</h3>
         <Form

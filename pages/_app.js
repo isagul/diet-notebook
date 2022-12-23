@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 
+import { Layout } from '@/components/index';
+
 import { store } from '../store';
 
 function MyApp({ Component, pageProps }) {
@@ -16,7 +18,9 @@ function MyApp({ Component, pageProps }) {
     >
       <Provider store={store}>
         <ToastContainer position="top-right" autoClose={2000} />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </Provider>
     </SessionProvider>
   )

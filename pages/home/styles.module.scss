@@ -1,22 +1,8 @@
-$small: 414px;
-
-.container {
-  min-height: 100vh;
-  max-width: 1170px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
-
-  .mainContent {
-    padding: 0 1rem;
-  }
-}
-
-@media screen and (max-width: $small) {
+@include mobile() {
   .container {
-    padding: 8px;
+    padding: 0;
     .mainContent {
-      padding: 8px;
+      padding: 0;
     }
   }
 }

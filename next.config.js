@@ -17,7 +17,7 @@ const nextConfig = withPWA({
   },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "_variables.scss";`
+    prependData: `@import "_variables.scss"; @import "_mixins.scss";`
   },
 })
 

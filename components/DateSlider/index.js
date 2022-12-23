@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Tabs, Form, Button, Row, Col } from 'antd';
+import { Input, Tabs, Form, Button, Row, Col, InputNumber } from 'antd';
 
 import { Meal } from '@/components/index';
 import { createDailyResults, getUserDietListRequest } from '@/services/diet';
@@ -118,7 +118,7 @@ const DateSlider = () => {
   return (
     <div className={styles.dateSliderComponent}>
       <div className={styles.titleWrapper}>
-        <h3>Günlük Liste</h3>
+        <h4>Günlük Liste</h4>
         <h4>Tarih: {clickedDate}</h4>
       </div>
       {

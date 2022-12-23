@@ -1,5 +1,3 @@
-$small: 414px;
-
 .mealComponent {
   border: 1px solid #eaeaea;
   padding: 16px 24px;
@@ -57,7 +55,7 @@ $small: 414px;
   }  
 }
 
-@media screen and (max-width: $small) {
+@include mobile() {
   .mealComponent {
     padding: 8px !important;
     .addMealWrapper {

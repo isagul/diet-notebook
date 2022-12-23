@@ -25,7 +25,6 @@ export default function HomePage() {
 
   const MainContent = () => (
     <div className={styles.mainContent}>
-      <Header />
       <DateSlider />
     </div>
   );

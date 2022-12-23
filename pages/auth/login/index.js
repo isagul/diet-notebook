@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import Link from "next/link";
 
 import { ROUTES } from '@/constants/routes';
-import { Header } from '@/components/index';
 
 import styles from './styles.module.scss';
 
@@ -38,7 +37,6 @@ const Login = () => {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       <div className={styles.loginFormWrapper}>
         <h3 className={styles.title}>Giriş Yap</h3>
         <Form

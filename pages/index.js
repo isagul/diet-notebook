@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from "next/router";
 
 import { ROUTES } from '@/constants/routes';
-import { Header } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
 import useWindowSize from '@/hooks/useWindowSize';
 import HomeImage from '@/public/home-image.png';
@@ -35,7 +34,6 @@ export default function Home() {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       {status === SESSION_STATUS.UNAUTHENTICATED && (
         <div className={styles.homeTextWrapper}>
           <div className={styles.homeLeftArea}>
