@@ -21,6 +21,10 @@
     padding-left: 1rem;
     margin-bottom: 0;
   }
+
+  .txtNotFound {
+    color: #ea2a15;
+  }
 }
 
 @include mobile() {

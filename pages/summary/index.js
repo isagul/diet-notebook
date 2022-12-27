@@ -58,20 +58,29 @@ const Summary = () => {
                     {dietItem.meals.map(mealItem => {
                       return (
                         <Descriptions.Item label={mealItem.name}>
-                          {mealItem.items.map(item => {
-                            return (
-                              <ul>
-                                <li>{item.name}</li>
-                              </ul>
-                            )
-                          })}
+                          {mealItem.items.length > 0 ? (
+                            mealItem.items.map(item => {
+                              return (
+                                <ul>
+                                  <li>{item.name}</li>
+                                </ul>
+                              )
+                            })
+                          ) : <span className={styles.txtNotFound}>Veri Bulunamadı.</span>}
                         </Descriptions.Item>
                       )
                     })}
                     <Descriptions.Item label="Adım Sayısı">
-                      {dietItem.stepCount} { createStepCountFace(dietItem.stepCount) }
+                      {dietItem.stepCount ? (
+                        <span>{dietItem.stepCount} {createStepCountFace(dietItem.stepCount)}</span>
+                      ) : <span className={styles.txtNotFound}>Veri Bulunamadı.</span>}
                     </Descriptions.Item>
-                    <Descriptions.Item label="Su Miktari">{dietItem.waterAmount}</Descriptions.Item>
+
+                    <Descriptions.Item label="Su Miktari">
+                      {dietItem.waterAmount ? (
+                        <span>{dietItem.waterAmount}</span>
+                      ) : <span className={styles.txtNotFound}>Veri Bulunamadı.</span>}
+                    </Descriptions.Item>
                   </Descriptions>
                 </Panel>
               )

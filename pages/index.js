@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
-import { Button, Space, Spin } from 'antd';
+import { Button, Space } from 'antd';
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from 'next-auth/react';
@@ -22,10 +22,6 @@ export default function Home() {
       router.push(ROUTES.HOME);
     }
   }, [session, router]);
-
-  if (status === SESSION_STATUS.LOADING) {
-    return (<Spin />);
-  };
 
   return (
     <div className={styles.container}>

@@ -1,5 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
-import { Button, Dropdown, Space, Typography, Badge } from "antd";
+import { Button, Dropdown, Space, Typography } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { DownOutlined, LogoutOutlined, BarsOutlined, HomeOutlined } from "@ant-design/icons";
@@ -20,7 +20,7 @@ const Header = () => {
     {
       key: '1',
       label: (
-        <Link href="/home">
+        <Link href={ROUTES.HOME}>
           <Text>Ana Sayfa</Text>
         </Link>
       ),
@@ -29,10 +29,8 @@ const Header = () => {
     {
       key: '2',
       label: (
-        <Link href="/summary">
-          <Badge dot>
-            <Text>Diyet Özetim</Text>
-          </Badge>
+        <Link href={ROUTES.SUMMARY}>
+          <Text>Diyet Özetim</Text>
         </Link>
       ),
       icon: <BarsOutlined />,
