@@ -6,12 +6,12 @@ import { useSession } from 'next-auth/react';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Input, Button, Divider, Space, Popconfirm, List, Empty } from 'antd';
 
+import styles from './styles.module.scss';
+
 import { UpdateMealModal } from '@/components/index';
 import HealthyFoodIcon from '@/public/healthy-food-icon.png';
 import { getDietListSelector } from '@/store/selectors/dietListSelectors';
 import { updateMealtoDiet, deleteMealItem, getUserDietListRequest } from '@/services/diet';
-
-import styles from './styles.module.scss';
 
 const defaultMealNames = {
   breakfast: undefined,
@@ -53,18 +53,18 @@ const Meal = ({ dayList, currentDate }) => {
 
       updateMealtoDiet({ data })
         .then(() => {
-          dispatch(getUserDietListRequest({ data: { email: data.email } }))
+          dispatch(getUserDietListRequest({ data: { email: data.email } }));
         })
         .catch(error => {
           toast(error.response.data.error);
         })
         .finally(() => {
           setMealItemName(defaultMealNames);
-        })
+        });
     } else {
-      toast("Alan boş bırakılamaz.")
+      toast("Alan boş bırakılamaz.");
     }
-  }
+  };
 
   const handleOnClickDeleteMealItem = (item, meal) => {
     const data = {
@@ -76,22 +76,22 @@ const Meal = ({ dayList, currentDate }) => {
 
     deleteMealItem({ data })
       .then(() => {
-        dispatch(getUserDietListRequest({ data: { email: data.email } }))
+        dispatch(getUserDietListRequest({ data: { email: data.email } }));
       })
       .catch(error => {
         toast(error.response.data.error);
-      })
-  }
+      });
+  };
 
   const handleOnClickEditMealItem = (item, meal) => {
     setSelectedMealItem(item);
     setSelectedMeal(meal);
     setIsUpdateMealModalVisible(true);
-  }
+  };
 
   const handleOnChangeUpdateMealModal = value => {
     setIsUpdateMealModalVisible(value);
-  }
+  };
 
   return (
     <div className={styles.mealComponent}>
@@ -103,7 +103,7 @@ const Meal = ({ dayList, currentDate }) => {
               <div>
                 <div className={styles.addMealArea}>
                   <Input
-                    placeholder='Neler yedin?'
+                    placeholder="Neler yedin?"
                     onPressEnter={() => addMealToDiet(meal)}
                     onChange={e => handleOnChangeAddMealItem(e, meal)}
                     value={mealItemName[meal?.property]}
@@ -153,7 +153,7 @@ const Meal = ({ dayList, currentDate }) => {
               </div>
               <Divider />
             </div>
-          )
+          );
         })
       }
       <UpdateMealModal
@@ -164,7 +164,7 @@ const Meal = ({ dayList, currentDate }) => {
         handleVisibleChange={handleOnChangeUpdateMealModal}
       />
     </div>
-  )
-}
+  );
+};
 
 export default Meal;

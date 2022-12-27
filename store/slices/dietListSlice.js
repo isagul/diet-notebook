@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+
 import { getUserDietListRequest } from '@/services/diet';
 
 const initialState = {
@@ -7,7 +8,7 @@ const initialState = {
     isPending: false,
     error: {},
   },
-}
+};
 
 export const dietListSlice = createSlice({
   name: 'dietSlice',

@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import dbConnect from "../../../lib/dbConnect";
-import User from "../../../models/User";
 import { compare } from "bcrypt";
+import CredentialsProvider from "next-auth/providers/credentials";
+
+import dbConnect from "@/lib/dbConnect";
+import User from "@/models/User";
 
 export default NextAuth({
   providers: [

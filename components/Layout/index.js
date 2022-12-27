@@ -1,10 +1,10 @@
 import { useSession } from 'next-auth/react';
 import { Spin } from 'antd';
 
+import styles from './styles.module.scss';
+
 import { Header } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
-
-import styles from './styles.module.scss';
 
 export default function Layout({ children }) {
   const { status } = useSession();
@@ -18,5 +18,5 @@ export default function Layout({ children }) {
       <Header />
       <main>{children}</main>
     </div>
-  )
+  );
 }

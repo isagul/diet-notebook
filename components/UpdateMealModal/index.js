@@ -31,14 +31,14 @@ const UpdateMealModal = ({ meal, mealItem, currentDate, isModalVisible, handleVi
 
     updateMealItem({ data })
       .then(() => {
-        dispatch(getUserDietListRequest({ data: { email: data.email } }))
+        dispatch(getUserDietListRequest({ data: { email: data.email } }));
       })
       .catch(error => {
         toast(error.response.data.error);
       })
       .finally(() => {
         handleVisibleChange(false);
-      })
+      });
   };
 
   return (

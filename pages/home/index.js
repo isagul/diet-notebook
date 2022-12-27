@@ -3,12 +3,12 @@ import { useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 
+import styles from './styles.module.scss';
+
 import LoginPage from '@/pages/auth/login';
-import { Header, DateSlider } from '@/components/index';
+import { DateSlider } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
 import { getUserDietListRequest } from '@/services/diet';
-
-import styles from './styles.module.scss';
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -43,5 +43,5 @@ export default function HomePage() {
         <LoginPage />
       )}
     </div>
-  )
+  );
 }

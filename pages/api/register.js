@@ -1,6 +1,7 @@
-import dbConnect from "../../lib/dbConnect";
-import User from "../../models/User";
 import bcrypt from "bcrypt";
+
+import dbConnect from "@/lib/dbConnect";
+import User from "@/models/User";
 
 const validateEmail = (email) => {
   const regEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

@@ -6,9 +6,10 @@ import { DownOutlined, LogoutOutlined, BarsOutlined, HomeOutlined } from "@ant-d
 import { useRouter } from "next/router";
 
 import HomeImage from "public/home-image.png";
-import { ROUTES } from '@/constants/routes';
 
 import styles from './styles.module.scss';
+
+import { ROUTES } from '@/constants/routes';
 
 const { Text } = Typography;
 
@@ -55,8 +56,8 @@ const Header = () => {
           </Space>
         </Button>
       </Dropdown>
-    )
-  }
+    );
+  };
 
   return (
     <header className={styles.header}>

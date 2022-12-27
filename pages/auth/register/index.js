@@ -7,11 +7,11 @@ import { useDispatch } from "react-redux";
 import { Button, Form, Input } from "antd";
 import { signIn, useSession } from "next-auth/react";
 
+import styles from './styles.module.scss';
+
 import { ROUTES } from '@/constants/routes';
 import { registerUser } from '@/services/auth';
 import { createDietList, getUserDietListRequest } from '@/services/diet';
-
-import styles from './styles.module.scss';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -26,13 +26,13 @@ const Register = () => {
 
       createDietList({ data })
         .then(() => {
-          dispatch(getUserDietListRequest({ data: { email: data.email } }))
+          dispatch(getUserDietListRequest({ data: { email: data.email } }));
         })
         .catch(error => {
           toast(error.response.data.error);
-        })
+        });
     }
-  }, [session, dispatch])
+  }, [session, dispatch]);
 
   const redirectToHome = () => {
     const { pathname } = Router;
@@ -50,7 +50,7 @@ const Register = () => {
       .catch((error) => {
         toast(error.response.data.error);
       });
-    toast(res)
+    toast(res);
   };
 
   const loginUser = async () => {

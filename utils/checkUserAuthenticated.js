@@ -11,10 +11,10 @@ const checkUserAuthenticated = async (context, callback) => {
         destination: ROUTES.APP_PAGE,
         permanent: false
       },
-    }
+    };
   }
 
-  return callback()
-}
+  return callback();
+};
 
 export default checkUserAuthenticated;

@@ -19,6 +19,9 @@ const nextConfig = withPWA({
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "_variables.scss"; @import "_mixins.scss";`
   },
-})
+  eslint: {
+    dirs: ['pages', 'utils', 'components', 'hooks', 'store'],
+  },
+});
 
 module.exports = nextConfig;

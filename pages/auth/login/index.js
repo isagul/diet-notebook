@@ -6,16 +6,16 @@ import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
 import Link from "next/link";
 
-import { ROUTES } from '@/constants/routes';
-
 import styles from './styles.module.scss';
+
+import { ROUTES } from '@/constants/routes';
 
 const Login = () => {
   const [isSignInPending, setSignInPending] = useState(false);
   const router = useRouter();
 
   const redirectToHome = () => {
-    router.push(ROUTES.HOME);    
+    router.push(ROUTES.HOME);
   };
 
   const onFinish = async values => {

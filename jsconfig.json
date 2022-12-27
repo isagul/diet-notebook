@@ -12,6 +12,7 @@
       "@/public/*": ["public/*"],
       "@/hooks/*": ["hooks/*"],
       "@/constants/*": ["constants/*"],
+      "@/models/*": ["models/*"],
     }
   }
 }

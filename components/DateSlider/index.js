@@ -5,11 +5,11 @@ import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Tabs, Form, Button, Row, Col, InputNumber } from 'antd';
 
+import styles from './styles.module.scss';
+
 import { Meal } from '@/components/index';
 import { createDailyResults, getUserDietListRequest } from '@/services/diet';
 import { getDietListSelector } from '@/store/selectors/dietListSelectors';
-
-import styles from './styles.module.scss';
 
 const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
@@ -29,14 +29,14 @@ const DateSlider = () => {
         form.setFieldsValue({
           stepCount: currentDate.stepCount,
           waterAmount: currentDate.waterAmount,
-        })
+        });
       }
     }
   }, [dietList, form, activeKey]);
 
   useEffect(() => {
     if (dietList && dietList.length > 0 && clickedDate === undefined) {
-      setClickedDate(dietList[DEFAULT_ACTIVE_KEY].date)
+      setClickedDate(dietList[DEFAULT_ACTIVE_KEY].date);
     }
   }, [dietList, clickedDate]);
 
@@ -45,16 +45,16 @@ const DateSlider = () => {
       ...values,
       email: session.user.email,
       date: clickedDate,
-    }
+    };
     createDailyResults({ data })
       .then(() => {
-        dispatch(getUserDietListRequest({ data: { email: data.email } }))
-        toast.success("Günlük sonuçlar başarıyla kaydedildi.")
+        dispatch(getUserDietListRequest({ data: { email: data.email } }));
+        toast.success("Günlük sonuçlar başarıyla kaydedildi.");
       })
       .catch(error => {
         toast(error.response.data.error);
-      })
-  }
+      });
+  };
 
   const dayContent = () => {
     return (
@@ -98,7 +98,7 @@ const DateSlider = () => {
         </div>
         <Meal dayList={dietList} currentDate={clickedDate} />
       </div>
-    )
+    );
   };
 
   const items = dietList.map((dietItem, index) => {
@@ -106,14 +106,14 @@ const DateSlider = () => {
       label: dietItem.date,
       key: String(index),
       children: dayContent(),
-    })
+    });
   });
 
   const handleOnTabsChange = activeKey => {
     const selectedDate = items.find(item => item.key === activeKey);
     setClickedDate(selectedDate.label);
     setActiveKey(activeKey);
-  }
+  };
 
   return (
     <div className={styles.dateSliderComponent}>
@@ -127,15 +127,15 @@ const DateSlider = () => {
             defaultActiveKey={DEFAULT_ACTIVE_KEY}
             activeKey={activeKey}
             tabPosition="left"
-            size='small'
-            type='card'
+            size="small"
+            type="card"
             items={items}
             onChange={handleOnTabsChange}
           />
         )
       }
     </div>
-  )
-}
+  );
+};
 
 export default DateSlider;

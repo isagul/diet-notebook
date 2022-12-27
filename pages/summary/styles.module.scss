@@ -25,6 +25,21 @@
   .txtNotFound {
     color: #ea2a15;
   }
+
+  .frownOutlined {
+    color: #ff4d4f;
+    font-size: 16px;
+  }
+
+  .mehOutlined {
+    color: #e99709;
+    font-size: 16px;
+  }
+
+  .smileOutlined {
+    color: #7de545;
+    font-size: 16px;
+  }
 }
 
 @include mobile() {

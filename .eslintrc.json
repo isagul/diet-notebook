@@ -1,30 +1,14 @@
 {
-  "extends": "airbnb",
+  "extends": ["next/core-web-vitals",  "prettier"],
   "rules": {
-    "parserOptions":{
-      "ecmaVersion":6,
-      "sourceType":"module",
-      "ecmaFeatures":{
-        "jsx":true,
-        "modules":true,
-        "experimentalObjectRestSpread":true
-      }
-    },
-    "indent": [
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
+    "no-console": "error",
+    "indent": ["error", 2],
+    "semi": [2, "always"],
+    "jsx-quotes":[
       "error",
-      2,
-      {
-        "SwitchCase": 1,
-        "ignoredNodes": ["JSXElement"]
-      }
-    ],
-    "no-console":[
-      "error",
-      {
-        "allow":[
-          "error"
-        ]
-      }
+      "prefer-double"
     ],
     "max-len": [
       "error",
@@ -34,13 +18,23 @@
         "tabWidth": 2
       }
     ],
-    "no-unused-vars":[
+    "import/order": [
       "error",
       {
-        "vars":"all",
-        "args":"none",
-        "ignoreRestSiblings":false
+        "newlines-between": "always-and-inside-groups",
+        "groups": [
+          ["builtin", "external"],
+          [
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+            "object"
+          ]
+        ]
       }
     ],
+    "object-curly-spacing": ["error", "always"],
+    "no-trailing-spaces": "error"
   }
 }
