@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSession } from "next-auth/react";
 
 import styles from './styles.module.scss';
@@ -8,11 +8,13 @@ import styles from './styles.module.scss';
 import LoginPage from '@/pages/auth/login';
 import { DateSlider } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
-import { getUserDietListRequest } from '@/services/diet';
+import { getUserDietListRequest, createDietList } from '@/services/diet';
+import { getDietListSelector } from '@/store/selectors/dietListSelectors';
 
 export default function HomePage() {
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
+  const dietList = useSelector(getDietListSelector.getData);
 
   useEffect(() => {
     if (session) {
@@ -22,6 +24,28 @@ export default function HomePage() {
       dispatch(getUserDietListRequest({ data }));
     }
   }, [session, dispatch]);
+
+  useEffect(() => {
+    if (dietList && dietList.length > 0) {
+      const date = new Date();
+      const currentYear = date.getFullYear();
+      const pastYear = Number(dietList[0].date.split("-")[2]);
+      if (currentYear !== pastYear) {
+        const data = {
+          email: session?.user?.email,
+        };
+
+        createDietList({ data })
+          .then(() => {
+            dispatch(getUserDietListRequest({ data: { email: data.email } }));
+          })
+          .catch(error => {
+            toast(error.response.data.error);
+          });
+        dispatch(getUserDietListRequest({ data }));
+      }
+    }
+  }, [dietList, dispatch, session.user.email]);
 
   const MainContent = () => (
     <div className={styles.mainContent}>

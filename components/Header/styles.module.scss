@@ -31,3 +31,9 @@
     justify-content: center;
   }
 }
+
+@include mobile() {
+  .header {
+    padding: 0 8px;    
+  }
+}

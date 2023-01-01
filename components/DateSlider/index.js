@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Tabs, Form, Button, Row, Col, InputNumber } from 'antd';
+import { Input, Tabs, Form, Button, Row, Col } from 'antd';
 
 import styles from './styles.module.scss';
 
