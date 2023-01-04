@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 
 import { UpdateMealModal } from '@/components/index';
 import HealthyFoodIcon from '@/public/healthy-food-icon.png';
-import { getDietListSelector } from '@/store/selectors/dietListSelectors';
+import { getDietListSelector, getCurrentDateSelector } from '@/store/selectors/dietListSelectors';
 import { updateMealtoDiet, deleteMealItem, getUserDietListRequest } from '@/services/diet';
 
 const defaultMealNames = {
@@ -22,8 +22,9 @@ const defaultMealNames = {
   dinner: undefined,
 };
 
-const Meal = ({ dayList, currentDate }) => {
+const Meal = ({ dayList }) => {
   const isDietListPending = useSelector(getDietListSelector.getIsPending);
+  const currentDate = useSelector(getCurrentDateSelector.getData);
   const [mealItemName, setMealItemName] = useState(defaultMealNames);
   const [selectedMeal, setSelectedMeal] = useState(undefined);
   const [selectedMealItem, setSelectedMealItem] = useState(undefined);

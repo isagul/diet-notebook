@@ -1,6 +1,6 @@
 import { Collapse } from 'antd';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Tabs, Form, Button, Row, Col } from 'antd';
@@ -9,15 +9,16 @@ import styles from './styles.module.scss';
 
 import { Meal } from '@/components/index';
 import { createDailyResults, getUserDietListRequest } from '@/services/diet';
-import { getDietListSelector } from '@/store/selectors/dietListSelectors';
+import { getDietListSelector, getCurrentDateSelector, getActiveKeySelector } from '@/store/selectors/dietListSelectors';
+import { setCurrentDate, setActiveKey } from '@/store/slices/dietListSlice';
 
 const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
 
 const DateSlider = () => {
   const dietList = useSelector(getDietListSelector.getData);
-  const [activeKey, setActiveKey] = useState(undefined);
-  const [clickedDate, setClickedDate] = useState(undefined);
+  const currentDate = useSelector(getCurrentDateSelector.getData);
+  const activeKey = useSelector(getActiveKeySelector.getData);
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -35,16 +36,16 @@ const DateSlider = () => {
   }, [dietList, form, activeKey]);
 
   useEffect(() => {
-    if (dietList && dietList.length > 0 && clickedDate === undefined) {
-      setClickedDate(dietList[DEFAULT_ACTIVE_KEY].date);
+    if (dietList && dietList.length > 0 && currentDate === undefined) {
+      dispatch(setCurrentDate(dietList[DEFAULT_ACTIVE_KEY].date));
     }
-  }, [dietList, clickedDate]);
+  }, [dietList, dispatch, currentDate]);
 
   const onFinishDailyResults = values => {
     const data = {
       ...values,
       email: session.user.email,
-      date: clickedDate,
+      date: currentDate,
     };
     createDailyResults({ data })
       .then(() => {
@@ -96,7 +97,7 @@ const DateSlider = () => {
             </Panel>
           </Collapse>
         </div>
-        <Meal dayList={dietList} currentDate={clickedDate} />
+        <Meal dayList={dietList} />
       </div>
     );
   };
@@ -111,15 +112,15 @@ const DateSlider = () => {
 
   const handleOnTabsChange = activeKey => {
     const selectedDate = items.find(item => item.key === activeKey);
-    setClickedDate(selectedDate.label);
-    setActiveKey(activeKey);
+    dispatch(setCurrentDate(selectedDate.label));
+    dispatch(setActiveKey(activeKey));
   };
 
   return (
     <div className={styles.dateSliderComponent}>
       <div className={styles.titleWrapper}>
         <h4>Günlük Liste</h4>
-        <h4>Tarih: {clickedDate}</h4>
+        <h4>Tarih: {currentDate}</h4>
       </div>
       {
         dietList && dietList.length > 0 && (

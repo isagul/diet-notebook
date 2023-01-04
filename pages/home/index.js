@@ -42,7 +42,6 @@ export default function HomePage() {
           .catch(error => {
             toast(error.response.data.error);
           });
-        dispatch(getUserDietListRequest({ data }));
       }
     }
   }, [dietList, dispatch, session.user.email]);

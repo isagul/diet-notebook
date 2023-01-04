@@ -8,11 +8,27 @@ const initialState = {
     isPending: false,
     error: {},
   },
+  currentDate: undefined,
+  activeKey: undefined,
 };
 
 export const dietListSlice = createSlice({
   name: 'dietSlice',
   initialState,
+  reducers: {
+    setCurrentDate: (state, action) => {
+      return {
+        ...state,
+        currentDate: action.payload
+      };
+    },
+    setActiveKey: (state, action) => {
+      return {
+        ...state,
+        activeKey: action.payload
+      };
+    },
+  },
   extraReducers: {
     [getUserDietListRequest.fulfilled]: (state, action) => {
       return {
@@ -46,4 +62,5 @@ export const dietListSlice = createSlice({
   }
 });
 
+export const { setCurrentDate, setActiveKey } = dietListSlice.actions;
 export default dietListSlice.reducer;

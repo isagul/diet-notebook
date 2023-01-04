@@ -34,6 +34,14 @@
         ]
       }
     ],
+    "no-unused-vars":[
+      "error",
+      {
+        "vars":"all",
+        "args":"none",
+        "ignoreRestSiblings":false
+      }
+    ],
     "object-curly-spacing": ["error", "always"],
     "no-trailing-spaces": "error"
   }
