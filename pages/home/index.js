@@ -29,7 +29,7 @@ export default function HomePage() {
     if (dietList && dietList.length > 0) {
       const date = new Date();
       const currentMonth = date.getMonth();
-      const pastMonth = Number(dietList[0].date.split("/")[1]);
+      const pastMonth = Number(dietList[0].date.split("-")[1]);
       if (currentMonth + 1 !== pastMonth) {
         const data = {
           email: session?.user?.email,
