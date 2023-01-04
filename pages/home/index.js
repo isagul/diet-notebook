@@ -28,9 +28,9 @@ export default function HomePage() {
   useEffect(() => {
     if (dietList && dietList.length > 0) {
       const date = new Date();
-      const currentYear = date.getFullYear();
-      const pastYear = Number(dietList[0].date.split("-")[2]);
-      if (currentYear !== pastYear) {
+      const currentMonth = date.getMonth();
+      const pastMonth = Number(dietList[0].date.split("/")[1]);
+      if (currentMonth + 1 !== pastMonth) {
         const data = {
           email: session?.user?.email,
         };
