@@ -97,7 +97,7 @@ const DateSlider = () => {
             </Panel>
           </Collapse>
         </div>
-        <Meal dayList={dietList} />
+        <Meal />
       </div>
     );
   };

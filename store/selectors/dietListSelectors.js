@@ -11,3 +11,7 @@ export const getActiveKeySelector = {
   getData: state => state?.dietList?.activeKey,
 };
 
+export const getCurrentMealSelector = {
+  getData: state => state?.dietList?.currentMeal,
+};
+

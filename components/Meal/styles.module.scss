@@ -22,24 +22,26 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 1rem;
       width: 100%;
 
       input {
         margin-right: 8px;
+        height: 40px;
       }
 
       button {
         background: $primary-color;
         color: white;
         border: none;
+        height: 40px;
       }
     }
-    ul {
+    .mealList {
       padding-left: 0;
       background: #f1f1f1;
       border-radius: 3px;
-      margin-bottom: 0;
+      margin-bottom: 1rem;
     }
     .mealItem {
       display: flex;

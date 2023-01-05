@@ -3,15 +3,17 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSession } from 'next-auth/react';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Input, Button, Divider, Space, Popconfirm, List, Empty } from 'antd';
+import { DeleteOutlined, EditOutlined, ArrowLeftOutlined, ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
+import { Input, Button, Space, Popconfirm, List, Empty, Steps, Divider } from 'antd';
 
 import styles from './styles.module.scss';
 
 import { UpdateMealModal } from '@/components/index';
 import HealthyFoodIcon from '@/public/healthy-food-icon.png';
-import { getDietListSelector, getCurrentDateSelector } from '@/store/selectors/dietListSelectors';
+import { getDietListSelector, getCurrentDateSelector, getCurrentMealSelector } from '@/store/selectors/dietListSelectors';
 import { updateMealtoDiet, deleteMealItem, getUserDietListRequest } from '@/services/diet';
+import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
+import { setCurrentMeal } from '@/store/slices/dietListSlice';
 
 const defaultMealNames = {
   breakfast: undefined,
@@ -22,16 +24,84 @@ const defaultMealNames = {
   dinner: undefined,
 };
 
-const Meal = ({ dayList }) => {
+const Meal = () => {
+  const dietList = useSelector(getDietListSelector.getData);
   const isDietListPending = useSelector(getDietListSelector.getIsPending);
+  const currentMeal = useSelector(getCurrentMealSelector.getData);
   const currentDate = useSelector(getCurrentDateSelector.getData);
   const [mealItemName, setMealItemName] = useState(defaultMealNames);
   const [selectedMeal, setSelectedMeal] = useState(undefined);
   const [selectedMealItem, setSelectedMealItem] = useState(undefined);
   const [isUpdateMealModalVisible, setIsUpdateMealModalVisible] = useState(false);
-  const selectedDate = dayList?.find(({ date }) => date === currentDate);
+  const selectedDate = dietList?.find(({ date }) => date === currentDate);
   const { data: session } = useSession();
   const dispatch = useDispatch();
+
+  const nextMeal = () => {
+    dispatch(setCurrentMeal(currentMeal + 1));
+  };
+
+  const prevMeal = () => {
+    dispatch(setCurrentMeal(currentMeal - 1));
+  };
+
+  const items = selectedDate?.meals.map((meal) => ({
+    key: meal._id,
+    title: meal.name,
+    content: (
+      <>
+        <div className={styles.addMealArea}>
+          <Input
+            placeholder="Neler yedin?"
+            onPressEnter={() => addMealToDiet(meal)}
+            onChange={e => handleOnChangeAddMealItem(e, meal)}
+            value={mealItemName[meal?.property]}
+          />
+          <Button icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)}>Ekle</Button>
+        </div>
+        <div className={styles.mealList}>
+          <List
+            itemLayout="horizontal"
+            dataSource={meal?.items}
+            loading={isDietListPending}
+            renderItem={item => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Image src={HealthyFoodIcon} alt="list-image" height={30} width={30} />}
+                  title={<span>{item.name}</span>}
+                />
+                <Space size="small">
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon={<EditOutlined />}
+                    onClick={() => handleOnClickEditMealItem(item, meal)}
+                    className={styles.btnMealEdit}
+                  />
+                  <Popconfirm
+                    title="Silmek istediğinden emin misin?"
+                    onConfirm={() => handleOnClickDeleteMealItem(item, meal)}
+                    okText="Evet"
+                    cancelText="Hayır"
+                  >
+                    <Button
+                      danger
+                      type="primary"
+                      shape="circle"
+                      icon={<DeleteOutlined />}
+                      className={styles.btnMealDelete}
+                    />
+                  </Popconfirm>
+
+                </Space>
+              </List.Item>
+            )}
+            locale={{ emptyText: <Empty description={`${capitalizeFirstLetter(meal.name.toLowerCase())} listeni oluştur.`} /> }}
+          />
+        </div>
+      </>
+    )
+  }));
 
   const handleOnChangeAddMealItem = (e, meal) => {
     const { property } = meal;
@@ -94,69 +164,29 @@ const Meal = ({ dayList }) => {
     setIsUpdateMealModalVisible(value);
   };
 
+  const onChangeSteps = value => {
+    dispatch(setCurrentMeal(value));
+  };
+
   return (
     <div className={styles.mealComponent}>
-      {
-        selectedDate?.meals.map(meal => {
-          return (
-            <div key={meal._id} className={styles.addMealWrapper}>
-              <h4 className={styles.mealName}>{meal?.name}:</h4>
-              <div>
-                <div className={styles.addMealArea}>
-                  <Input
-                    placeholder="Neler yedin?"
-                    onPressEnter={() => addMealToDiet(meal)}
-                    onChange={e => handleOnChangeAddMealItem(e, meal)}
-                    value={mealItemName[meal?.property]}
-                  />
-                  <Button onClick={() => addMealToDiet(meal)}>Ekle</Button>
-                </div>
-                <div>
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={meal?.items}
-                    loading={isDietListPending}
-                    renderItem={item => (
-                      <List.Item>
-                        <List.Item.Meta
-                          avatar={<Image src={HealthyFoodIcon} alt="list-image" height={30} width={30} />}
-                          title={<span>{item.name}</span>}
-                        />
-                        <Space size="small">
-                          <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<EditOutlined />}
-                            onClick={() => handleOnClickEditMealItem(item, meal)}
-                            className={styles.btnMealEdit}
-                          />
-                          <Popconfirm
-                            title="Silmek istediğinden emin misin?"
-                            onConfirm={() => handleOnClickDeleteMealItem(item, meal)}
-                            okText="Evet"
-                            cancelText="Hayır"
-                          >
-                            <Button
-                              danger
-                              type="primary"
-                              shape="circle"
-                              icon={<DeleteOutlined />}
-                              className={styles.btnMealDelete}
-                            />
-                          </Popconfirm>
-
-                        </Space>
-                      </List.Item>
-                    )}
-                    locale={{ emptyText: <Empty description="Listeni oluştur." /> }}
-                  />
-                </div>
-              </div>
-              <Divider />
-            </div>
-          );
-        })
-      }
+      <Steps current={currentMeal} items={items} onChange={onChangeSteps} />
+      <Divider />
+      <div className={styles.addMealWrapper}>{items && items[currentMeal].content}</div>
+      <div className="steps-action">
+        <Button
+          style={{
+            margin: '0 8px',
+          }}
+          onClick={() => prevMeal()}
+          disabled={currentMeal === 0}
+        >
+          <ArrowLeftOutlined />
+        </Button>
+        <Button className="btn-common" type="primary" onClick={() => nextMeal()} disabled={currentMeal === selectedDate?.meals.length - 1 }>
+          <ArrowRightOutlined />
+        </Button>
+      </div>
       <UpdateMealModal
         meal={selectedMeal}
         mealItem={selectedMealItem}

@@ -15,7 +15,7 @@ body {
   padding: 0;
   margin: 0;
   background-color: var(--primary-color);
-  font-family: 'SourceSansPro-Regular' , sans-serif;
+  font-family: 'SourceSansPro-Regular', sans-serif;
 }
 
 a {
@@ -25,6 +25,22 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* my css class names */
+
+.btn-common {
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.btn-common:hover {
+  background-color: var(--primary-color) !important;
+  opacity: .9;
+}
+
+.btn-common:disabled {
+  background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
 .not-found-page-wrapper {
@@ -55,12 +71,14 @@ a {
   opacity: .9;
 }
 
+/* antd classes */
+
 .ant-tabs-tab-active {
-  background-color: var(--yellow-color)!important;
+  background-color: var(--primary-color) !important;
 }
 
 .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: var(--primary-color) !important;
+  color: var(--yellow-color) !important;
   font-weight: 400 !important;
 }
 
@@ -91,13 +109,58 @@ a {
   background-color: #fff !important;
 }
 
+.ant-steps-item-title {
+  font-size: 14px !important;
+}
+
+.ant-list-item {
+  padding: 12px !important;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.steps-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ant-divider-horizontal {
+  margin: 1rem 0 !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: var(--yellow-color) !important;
+  border-color: var(--yellow-color) !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon {
+  color: var(--primary-color) !important;
+}
+
+.ant-steps-item-container:hover .ant-steps-item-title {
+  color: var(--primary-color) !important;
+}
+
+.ant-steps-item-container:hover .ant-steps-item-icon {
+  border-color: var(--primary-color) !important;
+}
+
+.ant-steps-item-wait .ant-steps-item-container:hover .ant-steps-icon {
+  color: var(--primary-color) !important;
+}
+
 @media screen and (max-width: 414px) {
   .ant-tabs-tabpane {
     padding-left: 8px !important;
   }
+
   .ant-list-item {
     padding: 12px 4px !important;
   }
+
   .ant-tabs-tab {
     padding: 6px !important;
   }

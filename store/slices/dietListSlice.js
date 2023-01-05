@@ -10,6 +10,7 @@ const initialState = {
   },
   currentDate: undefined,
   activeKey: undefined,
+  currentMeal: 0,
 };
 
 export const dietListSlice = createSlice({
@@ -26,6 +27,12 @@ export const dietListSlice = createSlice({
       return {
         ...state,
         activeKey: action.payload
+      };
+    },
+    setCurrentMeal: (state, action) => {
+      return {
+        ...state,
+        currentMeal: action.payload
       };
     },
   },
@@ -62,5 +69,5 @@ export const dietListSlice = createSlice({
   }
 });
 
-export const { setCurrentDate, setActiveKey } = dietListSlice.actions;
+export const { setCurrentDate, setActiveKey, setCurrentMeal } = dietListSlice.actions;
 export default dietListSlice.reducer;
