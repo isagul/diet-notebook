@@ -50,7 +50,7 @@ const Header = () => {
   const UserDropdown = () => {
     return (
       <Dropdown menu={{ items: dropdownMenuItems }}>
-        <Button>
+        <Button data-cy="btn-dropdown-menu">
           <Space>
             {session?.user?.name} <DownOutlined />
           </Space>

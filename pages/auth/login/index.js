@@ -61,7 +61,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input autoFocus />
+            <Input autoFocus data-cy="email" />
           </Form.Item>
 
           <Form.Item
@@ -74,10 +74,10 @@ const Login = () => {
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password data-cy="password" />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className={styles.btnLogin} loading={isSignInPending}>
+          <Button type="primary" htmlType="submit" className={styles.btnLogin} loading={isSignInPending} data-cy="btn-login">
             Giriş Yap
           </Button>
         </Form>

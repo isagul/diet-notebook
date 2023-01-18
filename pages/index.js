@@ -37,10 +37,10 @@ export default function Home() {
             <p>Her pazartesi kesin kararlar alarak diyete başlayanlar için artık bu diyeti gerçekleştirmelerine yardımcı olacak online bir defter var.</p>
             <Space size="small">
               <Link href={ROUTES.LOGIN_PAGE}>
-                <Button className={styles.btnLogin}>Giriş Yap</Button>
+                <Button className={styles.btnLogin} data-cy="btn-home-login">Giriş Yap</Button>
               </Link>
               <Link href={ROUTES.REGISTER_PAGE}>
-                <Button className={styles.btnRegister}>Kayıt Ol</Button>
+                <Button className={styles.btnRegister} data-cy="btn-home-register">Kayıt Ol</Button>
               </Link>
             </Space>
           </div>

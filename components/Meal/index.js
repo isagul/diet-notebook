@@ -56,8 +56,9 @@ const Meal = () => {
             onPressEnter={() => addMealToDiet(meal)}
             onChange={e => handleOnChangeAddMealItem(e, meal)}
             value={mealItemName[meal?.property]}
+            data-cy="input-meal-name"
           />
-          <Button icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)}>Ekle</Button>
+          <Button icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)} data-cy="btn-add-meal">Ekle</Button>
         </div>
         <div className={styles.mealList}>
           <List
