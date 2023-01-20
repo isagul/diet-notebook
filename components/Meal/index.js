@@ -78,6 +78,7 @@ const Meal = () => {
                     icon={<EditOutlined />}
                     onClick={() => handleOnClickEditMealItem(item, meal)}
                     className={styles.btnMealEdit}
+                    data-cy="btn-edit-meal"
                   />
                   <Popconfirm
                     title="Silmek istediğinden emin misin?"
@@ -91,6 +92,7 @@ const Meal = () => {
                       shape="circle"
                       icon={<DeleteOutlined />}
                       className={styles.btnMealDelete}
+                      data-cy="btn-delete-meal"
                     />
                   </Popconfirm>
 

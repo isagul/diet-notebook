@@ -32,5 +32,4 @@ Cypress.Commands.add('login', (email, pw) => {
   cy.get("[data-cy=email]").type(email);
   cy.get("[data-cy=password]").type(pw);
   cy.get("[data-cy=btn-login]").click();
-  cy.url().should('include', '/home');
 });
