@@ -1,10 +1,10 @@
-import { useState } from "react";
-import Head from "next/head";
-import { Button, Form, Input } from "antd";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useState } from 'react';
+import Head from 'next/head';
+import { Button, Form, Input } from 'antd';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import Link from "next/link";
+import Link from 'next/link';
 
 import styles from './styles.module.scss';
 
@@ -20,7 +20,7 @@ const Login = () => {
 
   const onFinish = async values => {
     setSignInPending(true);
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
@@ -57,7 +57,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Bu alan zorunludur!",
+                message: 'Bu alan zorunludur!',
               },
             ]}
           >
@@ -70,18 +70,26 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Bu alan zorunludur!",
+                message: 'Bu alan zorunludur!',
               },
             ]}
           >
             <Input.Password data-cy="password" />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className={styles.btnLogin} loading={isSignInPending} data-cy="btn-login">
-            Giriş Yap
+          <Button
+            type="primary"
+            htmlType="submit"
+            className={styles.btnLogin}
+            loading={isSignInPending}
+            data-cy="btn-login"
+          >
+						Giriş Yap
           </Button>
         </Form>
-        <p className={styles.txtRegister}>Hesabın yoksa <Link href={ROUTES.REGISTER_PAGE}>Kayıt ol!</Link></p>
+        <p className={styles.txtRegister}>
+					Hesabın yoksa <Link href={ROUTES.REGISTER_PAGE}>Kayıt ol!</Link>
+        </p>
       </div>
     </div>
   );

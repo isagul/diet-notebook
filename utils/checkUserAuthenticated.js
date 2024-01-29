@@ -1,6 +1,6 @@
-import { getSession } from "next-auth/react";
+import { getSession } from 'next-auth/react';
 
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from '@/constants/routes';
 
 const checkUserAuthenticated = async (context, callback) => {
   const session = await getSession(context);
@@ -9,7 +9,7 @@ const checkUserAuthenticated = async (context, callback) => {
     return {
       redirect: {
         destination: ROUTES.APP_PAGE,
-        permanent: false
+        permanent: false,
       },
     };
   }

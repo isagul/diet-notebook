@@ -10,8 +10,8 @@ export default function Layout({ children }) {
   const { status } = useSession();
 
   if (status === SESSION_STATUS.LOADING) {
-    return (<Spin />);
-  };
+    return <Spin />;
+  }
 
   return (
     <div className={styles.layoutComponent}>

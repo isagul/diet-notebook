@@ -9,4 +9,4 @@ export function getAllDaysInMonth(year, month) {
   }
 
   return dates;
-};
+}

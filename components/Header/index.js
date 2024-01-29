@@ -1,11 +1,11 @@
-import { signOut, useSession } from "next-auth/react";
-import { Button, Dropdown, Space, Typography } from "antd";
-import Image from "next/image";
-import Link from "next/link";
-import { DownOutlined, LogoutOutlined, BarsOutlined, HomeOutlined } from "@ant-design/icons";
-import { useRouter } from "next/router";
+import { signOut, useSession } from 'next-auth/react';
+import { Button, Dropdown, Space, Typography } from 'antd';
+import Image from 'next/image';
+import Link from 'next/link';
+import { DownOutlined, LogoutOutlined, BarsOutlined, HomeOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
-import HomeImage from "public/home-image.png";
+import HomeImage from 'public/home-image.png';
 
 import styles from './styles.module.scss';
 
@@ -38,13 +38,9 @@ const Header = () => {
     },
     {
       key: '3',
-      label: (
-        <Text onClick={() => signOut({ callbackUrl: ROUTES.APP_PAGE })}>
-          Çıkış Yap
-        </Text>
-      ),
+      label: <Text onClick={() => signOut({ callbackUrl: ROUTES.APP_PAGE })}>Çıkış Yap</Text>,
       icon: <LogoutOutlined />,
-    }
+    },
   ];
 
   const UserDropdown = () => {
@@ -68,12 +64,9 @@ const Header = () => {
         </div>
       </Link>
 
-      {
-        session && (router.pathname !== ROUTES.LOGIN_PAGE && router.pathname !== ROUTES.REGISTER_PAGE) && (
-          <UserDropdown />
-        )
-      }
-
+      {session &&
+				router.pathname !== ROUTES.LOGIN_PAGE &&
+				router.pathname !== ROUTES.REGISTER_PAGE && <UserDropdown />}
     </header>
   );
 };

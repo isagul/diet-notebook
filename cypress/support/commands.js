@@ -26,10 +26,10 @@
 
 Cypress.Commands.add('login', (email, pw) => {
   cy.visit('http://localhost:3000');
-  cy.get("[data-cy=btn-home-login]").click();
+  cy.get('[data-cy=btn-home-login]').click();
   cy.url().should('include', '/auth/login');
   cy.get('h3').contains('Giriş Yap');
-  cy.get("[data-cy=email]").type(email);
-  cy.get("[data-cy=password]").type(pw);
-  cy.get("[data-cy=btn-login]").click();
+  cy.get('[data-cy=email]').type(email);
+  cy.get('[data-cy=password]').type(pw);
+  cy.get('[data-cy=btn-login]').click();
 });

@@ -1,11 +1,11 @@
-import Head from "next/head";
-import Link from "next/link";
-import Router from "next/router";
-import { useEffect } from "react";
+import Head from 'next/head';
+import Link from 'next/link';
+import Router from 'next/router';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch } from "react-redux";
-import { Button, Form, Input } from "antd";
-import { signIn, useSession } from "next-auth/react";
+import { useDispatch } from 'react-redux';
+import { Button, Form, Input } from 'antd';
+import { signIn, useSession } from 'next-auth/react';
 
 import styles from './styles.module.scss';
 
@@ -47,7 +47,7 @@ const Register = () => {
         await loginUser();
         redirectToHome();
       })
-      .catch((error) => {
+      .catch(error => {
         toast(error.response.data.error);
       });
     toast(res);
@@ -55,7 +55,7 @@ const Register = () => {
 
   const loginUser = async () => {
     const formValues = form.getFieldsValue();
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       redirect: false,
       email: formValues.email,
       password: formValues.password,
@@ -93,7 +93,7 @@ const Register = () => {
             rules={[
               {
                 required: true,
-                message: "Bu alan zorunludur!",
+                message: 'Bu alan zorunludur!',
               },
             ]}
           >
@@ -105,7 +105,7 @@ const Register = () => {
             rules={[
               {
                 required: true,
-                message: "Bu alan zorunludur!",
+                message: 'Bu alan zorunludur!',
               },
             ]}
           >
@@ -118,7 +118,7 @@ const Register = () => {
             rules={[
               {
                 required: true,
-                message: "Bu alan zorunludur!",
+                message: 'Bu alan zorunludur!',
               },
             ]}
           >
@@ -126,10 +126,12 @@ const Register = () => {
           </Form.Item>
 
           <Button type="primary" htmlType="submit" className={styles.btnRegister}>
-            Kayıt Ol
+						Kayıt Ol
           </Button>
         </Form>
-        <p className={styles.txtLogin}>Hesabın varsa <Link href={ROUTES.LOGIN_PAGE}>Giriş Yap!</Link></p>
+        <p className={styles.txtLogin}>
+					Hesabın varsa <Link href={ROUTES.LOGIN_PAGE}>Giriş Yap!</Link>
+        </p>
       </div>
     </div>
   );

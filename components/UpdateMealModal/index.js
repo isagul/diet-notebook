@@ -52,7 +52,11 @@ const UpdateMealModal = ({ meal, mealItem, currentDate, isModalVisible, handleVi
         onOk={() => handleOnClickUpdateMealItem()}
         onCancel={() => handleVisibleChange(false)}
       >
-        <Input value={currentMealItem} onChange={handleOnChangeMealItem} data-cy="input-update-meal" />
+        <Input
+          value={currentMealItem}
+          onChange={handleOnChangeMealItem}
+          data-cy="input-update-meal"
+        />
       </Modal>
     </div>
   );

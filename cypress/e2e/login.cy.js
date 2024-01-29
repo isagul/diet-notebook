@@ -1,4 +1,3 @@
-
 describe('Login', () => {
   beforeEach(() => {
     cy.login(Cypress.env().email, Cypress.env().password);

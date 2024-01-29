@@ -20,19 +20,19 @@ export const dietListSlice = createSlice({
     setCurrentDate: (state, action) => {
       return {
         ...state,
-        currentDate: action.payload
+        currentDate: action.payload,
       };
     },
     setActiveKey: (state, action) => {
       return {
         ...state,
-        activeKey: action.payload
+        activeKey: action.payload,
       };
     },
     setCurrentMeal: (state, action) => {
       return {
         ...state,
-        currentMeal: action.payload
+        currentMeal: action.payload,
       };
     },
   },
@@ -44,7 +44,7 @@ export const dietListSlice = createSlice({
           ...state.dietList,
           data: action.payload,
           isPending: false,
-        }
+        },
       };
     },
     [getUserDietListRequest.rejected]: (state, action) => {
@@ -54,19 +54,19 @@ export const dietListSlice = createSlice({
           ...state.dietList,
           error: action.payload,
           isPending: false,
-        }
+        },
       };
     },
-    [getUserDietListRequest.pending]: (state, action) => {
+    [getUserDietListRequest.pending]: state => {
       return {
         ...state,
         dietList: {
           ...state.dietList,
           isPending: true,
-        }
+        },
       };
     },
-  }
+  },
 });
 
 export const { setCurrentDate, setActiveKey, setCurrentMeal } = dietListSlice.actions;

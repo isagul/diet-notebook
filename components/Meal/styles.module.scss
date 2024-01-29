@@ -1,72 +1,72 @@
 .mealComponent {
-  border: 1px solid #eaeaea;
-  padding: 16px 24px;
-  border-radius: 3px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	border: 1px solid #eaeaea;
+	padding: 16px 24px;
+	border-radius: 3px;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
-  .mealName {  
-    margin-bottom: 0;
-    align-self: flex-start;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 8px;
-  }
+	.mealName {
+		margin-bottom: 0;
+		align-self: flex-start;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		margin-right: 8px;
+	}
 
-  .addMealWrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+	.addMealWrapper {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 
-    .addMealArea {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1rem;
-      width: 100%;
+		.addMealArea {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 1rem;
+			width: 100%;
 
-      input {
-        margin-right: 8px;
-        height: 40px;
-      }
+			input {
+				margin-right: 8px;
+				height: 40px;
+			}
 
-      button {
-        background: $primary-color;
-        color: white;
-        border: none;
-        height: 40px;
-      }
-    }
-    .mealList {
-      padding-left: 0;
-      background: #f1f1f1;
-      border-radius: 3px;
-      margin-bottom: 1rem;
-    }
-    .mealItem {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #f3f3f3;
-      padding: 8px 12px;
-      // &:nth-child(odd) { background-color:#ececec; }
-      // &:nth-child(even) { background-color:#f4f4f4; }
-    }
-    .btnMealEdit {
-      background-color: #55bdd5;
-    }
-  }  
+			button {
+				background: $primary-color;
+				color: white;
+				border: none;
+				height: 40px;
+			}
+		}
+		.mealList {
+			padding-left: 0;
+			background: #f1f1f1;
+			border-radius: 3px;
+			margin-bottom: 1rem;
+		}
+		.mealItem {
+			display: flex;
+			justify-content: space-between;
+			border-bottom: 1px solid #f3f3f3;
+			padding: 8px 12px;
+			// &:nth-child(odd) { background-color:#ececec; }
+			// &:nth-child(even) { background-color:#f4f4f4; }
+		}
+		.btnMealEdit {
+			background-color: #55bdd5;
+		}
+	}
 }
 
 @include mobile() {
-  .mealComponent {
-    padding: 8px !important;
-    .addMealWrapper {
-      .addMealArea {
-        width: 100% !important;      
-      }
-      .mealItem {
-        padding: 8px;
-      }
-    }
-  }
+	.mealComponent {
+		padding: 8px !important;
+		.addMealWrapper {
+			.addMealArea {
+				width: 100% !important;
+			}
+			.mealItem {
+				padding: 8px;
+			}
+		}
+	}
 }

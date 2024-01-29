@@ -1,13 +1,13 @@
 .layoutComponent {
-  min-height: 100vh;
-  max-width: 1170px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
+	min-height: 100vh;
+	max-width: 1170px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1rem;
 }
 
 @include mobile() {
-  .layoutComponent {
-    padding: 8px 0;
-  }
+	.layoutComponent {
+		padding: 8px 0;
+	}
 }

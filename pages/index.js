@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
 import { Button, Space } from 'antd';
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { ROUTES } from '@/constants/routes';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
@@ -34,13 +34,20 @@ export default function Home() {
         <div className={styles.homeTextWrapper}>
           <div className={styles.homeLeftArea}>
             <h1>Online diyet defterin her zaman yanında.</h1>
-            <p>Her pazartesi kesin kararlar alarak diyete başlayanlar için artık bu diyeti gerçekleştirmelerine yardımcı olacak online bir defter var.</p>
+            <p>
+							Her pazartesi kesin kararlar alarak diyete başlayanlar için artık bu diyeti
+							gerçekleştirmelerine yardımcı olacak online bir defter var.
+            </p>
             <Space size="small">
               <Link href={ROUTES.LOGIN_PAGE}>
-                <Button className={styles.btnLogin} data-cy="btn-home-login">Giriş Yap</Button>
+                <Button className={styles.btnLogin} data-cy="btn-home-login">
+									Giriş Yap
+                </Button>
               </Link>
               <Link href={ROUTES.REGISTER_PAGE}>
-                <Button className={styles.btnRegister} data-cy="btn-home-register">Kayıt Ol</Button>
+                <Button className={styles.btnRegister} data-cy="btn-home-register">
+									Kayıt Ol
+                </Button>
               </Link>
             </Space>
           </div>

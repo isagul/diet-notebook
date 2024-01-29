@@ -1,7 +1,7 @@
 import 'antd/dist/reset.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '@/styles/globals.css';
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -24,6 +24,6 @@ function MyApp({ Component, pageProps }) {
       </Provider>
     </SessionProvider>
   );
-};
+}
 
 export default MyApp;

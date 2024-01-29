@@ -1,45 +1,46 @@
 .dateSliderComponent {
-  background: #f7f7f7;
-  padding: 24px;
-  border-radius: 3px;
-  .titleWrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    color: $secondary-color;
+	background: #f7f7f7;
+	padding: 24px;
+	border-radius: 3px;
+	.titleWrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 24px;
+		color: $secondary-color;
 
-    h3, h4 {
-      margin: 0
-    }
-  }
-  .dayContentWrapper {
-    .dailyTargetsWrapper {
-      display: flex;
-      margin-bottom: 8px;
-      flex-direction: column;
-      .content {
-        .formContent {
-          display: flex;
-          gap: 8px;
-        }
-        .btnSaveDailyInfo {
-          background-color: $primary-color;
-          border: none;
-        }
-      }
-    }
-  }  
+		h3,
+		h4 {
+			margin: 0;
+		}
+	}
+	.dayContentWrapper {
+		.dailyTargetsWrapper {
+			display: flex;
+			margin-bottom: 8px;
+			flex-direction: column;
+			.content {
+				.formContent {
+					display: flex;
+					gap: 8px;
+				}
+				.btnSaveDailyInfo {
+					background-color: $primary-color;
+					border: none;
+				}
+			}
+		}
+	}
 }
 
 @include mobile() {
-  .dateSliderComponent {
-    padding: 1rem 8px 8px 8px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    .titleWrapper {
-      margin-bottom: 1rem;
-    }     
-  }
+	.dateSliderComponent {
+		padding: 1rem 8px 8px 8px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		.titleWrapper {
+			margin-bottom: 1rem;
+		}
+	}
 }

@@ -16,7 +16,7 @@ export const getUserDietListRequest = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err);
     }
-  }
+  },
 );
 
 export const createDietList = ({ data }) => {

@@ -1,24 +1,24 @@
-import NextAuth from "next-auth";
-import { compare } from "bcrypt";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from 'next-auth';
+import { compare } from 'bcrypt';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
+import dbConnect from '@/lib/dbConnect';
+import User from '@/models/User';
 
 export default NextAuth({
   providers: [
     // Email & Password
     CredentialsProvider({
-      id: "credentials",
-      name: "Credentials",
+      id: 'credentials',
+      name: 'Credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "text",
+          label: 'Email',
+          type: 'text',
         },
         password: {
-          label: "Password",
-          type: "password",
+          label: 'Password',
+          type: 'password',
         },
       },
       async authorize(credentials) {
@@ -31,18 +31,15 @@ export default NextAuth({
 
         // Email Not found
         if (!user) {
-          throw new Error("Email is not registered");
+          throw new Error('Email is not registered');
         }
 
         // Check hased password with DB hashed password
-        const isPasswordCorrect = await compare(
-          credentials?.password,
-          user.hashedPassword
-        );
+        const isPasswordCorrect = await compare(credentials?.password, user.hashedPassword);
 
         // Incorrect password
         if (!isPasswordCorrect) {
-          throw new Error("Password is incorrect");
+          throw new Error('Password is incorrect');
         }
 
         return user;
@@ -50,11 +47,11 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/auth/register",
+    signIn: '/auth/register',
   },
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   //   jwt: {
   //     secret: process.env.NEXTAUTH_JWT_SECRET,

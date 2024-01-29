@@ -1,48 +1,47 @@
 .container {
-  .homeTextWrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 80vh;
+	.homeTextWrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		height: 80vh;
 
-    .homeLeftArea {
-      color: #fff;
-      p {
-          color: hsla(0,0%,90%,.8);
-      }
-      .btnRegister {
-        background: $secondary-color;
-        color: white;
-        border: none;
-        width: 100px;
-        opacity: .9;
+		.homeLeftArea {
+			color: #fff;
+			p {
+				color: hsla(0, 0%, 90%, 0.8);
+			}
+			.btnRegister {
+				background: $secondary-color;
+				color: white;
+				border: none;
+				width: 100px;
+				opacity: 0.9;
 
-        &:hover {
-          opacity: 1;
-          color: white;
-        }
-      }
+				&:hover {
+					opacity: 1;
+					color: white;
+				}
+			}
 
-      .btnLogin {
-        background: #F8E38F;
-        color: $primary-color;
-        border: none;
-        width: 100px;
-        opacity: .9;
+			.btnLogin {
+				background: #f8e38f;
+				color: $primary-color;
+				border: none;
+				width: 100px;
+				opacity: 0.9;
 
-        &:hover {
-          opacity: 1;
-          color: $primary-color;
-        }
-      }
-    }
-  }  
+				&:hover {
+					opacity: 1;
+					color: $primary-color;
+				}
+			}
+		}
+	}
 }
 
 @include mobile() {
-  .container {
-    padding: 8px;
-  }
+	.container {
+		padding: 8px;
+	}
 }
-  

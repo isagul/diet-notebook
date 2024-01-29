@@ -1,9 +1,8 @@
 @include mobile() {
-  .container {
-    padding: 0;
-    .mainContent {
-      padding: 0;
-    }
-  }
+	.container {
+		padding: 0;
+		.mainContent {
+			padding: 0;
+		}
+	}
 }
-  

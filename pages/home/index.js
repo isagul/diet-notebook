@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { useSession } from "next-auth/react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useSession } from 'next-auth/react';
 
 import styles from './styles.module.scss';
 
@@ -29,7 +29,7 @@ export default function HomePage() {
     if (dietList && dietList.length > 0) {
       const date = new Date();
       const currentMonth = date.getMonth();
-      const pastMonth = Number(dietList[0].date.split("-")[1]);
+      const pastMonth = Number(dietList[0].date.split('-')[1]);
       if (currentMonth + 1 !== pastMonth) {
         const data = {
           email: session?.user?.email,
@@ -59,12 +59,8 @@ export default function HomePage() {
         <meta name="description" content="Diet Notebook" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {status === SESSION_STATUS.AUTHENTICATED && (
-        <MainContent />
-      )}
-      {status === SESSION_STATUS.UNAUTHENTICATED && (
-        <LoginPage />
-      )}
+      {status === SESSION_STATUS.AUTHENTICATED && <MainContent />}
+      {status === SESSION_STATUS.UNAUTHENTICATED && <LoginPage />}
     </div>
   );
 }

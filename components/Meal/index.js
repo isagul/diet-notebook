@@ -1,16 +1,26 @@
-import Image from "next/image";
+import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSession } from 'next-auth/react';
-import { DeleteOutlined, EditOutlined, ArrowLeftOutlined, ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import { Input, Button, Space, Popconfirm, List, Empty, Steps, Divider } from 'antd';
 
 import styles from './styles.module.scss';
 
 import { UpdateMealModal } from '@/components/index';
 import HealthyFoodIcon from '@/public/healthy-food-icon.png';
-import { getDietListSelector, getCurrentDateSelector, getCurrentMealSelector } from '@/store/selectors/dietListSelectors';
+import {
+  getDietListSelector,
+  getCurrentDateSelector,
+  getCurrentMealSelector,
+} from '@/store/selectors/dietListSelectors';
 import { updateMealtoDiet, deleteMealItem, getUserDietListRequest } from '@/services/diet';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 import { setCurrentMeal } from '@/store/slices/dietListSlice';
@@ -45,7 +55,7 @@ const Meal = () => {
     dispatch(setCurrentMeal(currentMeal - 1));
   };
 
-  const items = selectedDate?.meals.map((meal) => ({
+  const items = selectedDate?.meals.map(meal => ({
     key: meal._id,
     title: meal.name,
     content: (
@@ -58,7 +68,13 @@ const Meal = () => {
             value={mealItemName[meal?.property]}
             data-cy="input-meal-name"
           />
-          <Button icon={<PlusOutlined />} onClick={() => addMealToDiet(meal)} data-cy="btn-add-meal">Ekle</Button>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => addMealToDiet(meal)}
+            data-cy="btn-add-meal"
+          >
+						Ekle
+          </Button>
         </div>
         <div className={styles.mealList}>
           <List
@@ -95,15 +111,20 @@ const Meal = () => {
                       data-cy="btn-delete-meal"
                     />
                   </Popconfirm>
-
                 </Space>
               </List.Item>
             )}
-            locale={{ emptyText: <Empty description={`${capitalizeFirstLetter(meal.name.toLowerCase())} listeni oluştur.`} /> }}
+            locale={{
+              emptyText: (
+                <Empty
+                  description={`${capitalizeFirstLetter(meal.name.toLowerCase())} listeni oluştur.`}
+                />
+              ),
+            }}
           />
         </div>
       </>
-    )
+    ),
   }));
 
   const handleOnChangeAddMealItem = (e, meal) => {
@@ -136,7 +157,7 @@ const Meal = () => {
           setMealItemName(defaultMealNames);
         });
     } else {
-      toast("Alan boş bırakılamaz.");
+      toast('Alan boş bırakılamaz.');
     }
   };
 
@@ -186,7 +207,12 @@ const Meal = () => {
         >
           <ArrowLeftOutlined />
         </Button>
-        <Button className="btn-common" type="primary" onClick={() => nextMeal()} disabled={currentMeal === selectedDate?.meals.length - 1 }>
+        <Button
+          className="btn-common"
+          type="primary"
+          onClick={() => nextMeal()}
+          disabled={currentMeal === selectedDate?.meals.length - 1}
+        >
           <ArrowRightOutlined />
         </Button>
       </div>
