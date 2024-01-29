@@ -12,55 +12,55 @@ import { getUserDietListRequest, createDietList } from '@/services/diet';
 import { getDietListSelector } from '@/store/selectors/dietListSelectors';
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-  const { data: session, status } = useSession();
-  const dietList = useSelector(getDietListSelector.getData);
+	const dispatch = useDispatch();
+	const { data: session, status } = useSession();
+	const dietList = useSelector(getDietListSelector.getData);
 
-  useEffect(() => {
-    if (session) {
-      const data = {
-        email: session?.user?.email,
-      };
-      dispatch(getUserDietListRequest({ data }));
-    }
-  }, [session.user, dispatch]);
+	useEffect(() => {
+		if (session) {
+			const data = {
+				email: session?.user?.email,
+			};
+			dispatch(getUserDietListRequest({ data }));
+		}
+	}, [session.user, dispatch]);
 
-  useEffect(() => {
-    if (dietList && dietList.length > 0) {
-      const date = new Date();
-      const currentMonth = date.getMonth();
-      const pastMonth = Number(dietList[0].date.split('-')[1]);
-      if (currentMonth + 1 !== pastMonth) {
-        const data = {
-          email: session?.user?.email,
-        };
+	useEffect(() => {
+		if (dietList && dietList.length > 0) {
+			const date = new Date();
+			const currentMonth = date.getMonth();
+			const pastMonth = Number(dietList[0].date.split('-')[1]);
+			if (currentMonth + 1 !== pastMonth) {
+				const data = {
+					email: session?.user?.email,
+				};
 
-        createDietList({ data })
-          .then(() => {
-            dispatch(getUserDietListRequest({ data: { email: data.email } }));
-          })
-          .catch(error => {
-            toast(error.response.data.error);
-          });
-      }
-    }
-  }, [dietList, dispatch, session.user.email]);
+				createDietList({ data })
+					.then(() => {
+						dispatch(getUserDietListRequest({ data: { email: data.email } }));
+					})
+					.catch(error => {
+						toast(error.response.data.error);
+					});
+			}
+		}
+	}, [dietList, dispatch, session.user.email]);
 
-  const MainContent = () => (
-    <div className={styles.mainContent}>
-      <DateSlider />
-    </div>
-  );
+	const MainContent = () => (
+		<div className={styles.mainContent}>
+			<DateSlider />
+		</div>
+	);
 
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Diyet Defteri</title>
-        <meta name="description" content="Diet Notebook" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {status === SESSION_STATUS.AUTHENTICATED && <MainContent />}
-      {status === SESSION_STATUS.UNAUTHENTICATED && <LoginPage />}
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			<Head>
+				<title>Diyet Defterim</title>
+				<meta name="description" content="Diet Notebook" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			{status === SESSION_STATUS.AUTHENTICATED && <MainContent />}
+			{status === SESSION_STATUS.UNAUTHENTICATED && <LoginPage />}
+		</div>
+	);
 }
