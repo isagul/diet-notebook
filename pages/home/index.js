@@ -23,7 +23,7 @@ export default function HomePage() {
       };
       dispatch(getUserDietListRequest({ data }));
     }
-  }, [session, dispatch]);
+  }, [session.user, dispatch]);
 
   useEffect(() => {
     if (dietList && dietList.length > 0) {
