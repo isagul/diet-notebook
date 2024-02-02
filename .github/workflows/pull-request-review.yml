@@ -25,7 +25,7 @@ jobs:
 
     - name: Run OpenAI bot
       run: |
-        node .github/scripts/openai_bot.js
+        node .github/scripts/pull-request-review-bot.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
