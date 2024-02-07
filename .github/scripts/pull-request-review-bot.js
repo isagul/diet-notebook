@@ -3,7 +3,7 @@ const { context, getOctokit } = require('@actions/github');
 
 async function getPRDescription() {
 	const octokit = getOctokit(process.env.GITHUB_TOKEN);
-	const { data: pullRequest } = await octokit.pulls.get({
+	const { data: pullRequest } = await octokit.rest.pulls.get({
 		owner: context.repo.owner,
 		repo: context.repo.repo,
 		pull_number: context.payload.pull_request.number,
