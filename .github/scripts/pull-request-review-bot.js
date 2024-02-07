@@ -19,8 +19,12 @@ async function generateReview(prDescription) {
 		'https://api.openai.com/v1/chat/completions',
 		{
 			model: 'gpt-3.5-turbo',
-			prompt,
-			max_tokens: 150,
+			messages: [{ role: 'system', content: prompt }],
+			max_tokens: 512,
+			top_p: 1,
+			temperature: 0.5,
+			frequency_penalty: 0,
+			presence_penalty: 0,
 		},
 		{
 			headers: {
