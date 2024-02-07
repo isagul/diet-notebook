@@ -29,23 +29,24 @@ const DateSlider = () => {
 	const dispatch = useDispatch();
 	const [form] = Form.useForm();
 
+	const isDietListExist = dietList && dietList.length > 0;
+
 	useEffect(() => {
-		if (dietList && dietList.length > 0) {
-			const currentDate = dietList[activeKey];
-			if (currentDate) {
+		if (isDietListExist) {
+			if (dietList[activeKey]) {
 				form.setFieldsValue({
-					stepCount: currentDate.stepCount,
-					waterAmount: currentDate.waterAmount,
+					stepCount: dietList[activeKey].stepCount,
+					waterAmount: dietList[activeKey].waterAmount,
 				});
 			}
 		}
-	}, [dietList, form, activeKey]);
+	}, [dietList, form, activeKey, isDietListExist]);
 
 	useEffect(() => {
-		if (dietList && dietList.length > 0 && currentDate === undefined) {
+		if (isDietListExist && currentDate === undefined) {
 			dispatch(setCurrentDate(dietList[DEFAULT_ACTIVE_KEY].date));
 		}
-	}, [dietList, dispatch, currentDate]);
+	}, [dietList, dispatch, currentDate, isDietListExist]);
 
 	const onFinishDailyResults = values => {
 		const data = {
@@ -126,7 +127,7 @@ const DateSlider = () => {
 				<h4>Günlük Liste</h4>
 				{currentDate && <h4>Tarih: {getMonthName(currentDate)}</h4>}
 			</div>
-			{dietList && dietList.length > 0 && (
+			{isDietListExist && (
 				<Tabs
 					defaultActiveKey={DEFAULT_ACTIVE_KEY}
 					activeKey={activeKey}
