@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const axios = require('axios');
 const { context, getOctokit } = require('@actions/github');
 
 async function getPRDescription() {
@@ -15,12 +15,21 @@ async function generateReview(prDescription) {
 	const openaiApiKey = process.env.OPENAI_API_KEY;
 	const prompt = `Review the following pull request:\n${prDescription}\n\nReview:`;
 
-	const review = execSync(
-		`openai api completions.create --model=text-davinci-002 --prompt "${prompt}" --max_tokens=150 --key ${openaiApiKey}`,
-		{ encoding: 'utf-8' },
-	).choices[0].text.trim();
+	const response = await axios.post(
+		'https://api.openai.com/v1/engines/davinci-codex/completions',
+		{
+			prompt,
+			max_tokens: 150,
+		},
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${openaiApiKey}`,
+			},
+		},
+	);
 
-	return review;
+	return response.data.choices[0].text.trim();
 }
 
 async function main() {
@@ -28,7 +37,7 @@ async function main() {
 	const review = await generateReview(prDescription);
 
 	const octokit = getOctokit(process.env.GITHUB_TOKEN);
-	await octokit.pulls.createReview({
+	await octokit.rest.pulls.createReview({
 		owner: context.repo.owner,
 		repo: context.repo.repo,
 		pull_number: context.payload.pull_request.number,
