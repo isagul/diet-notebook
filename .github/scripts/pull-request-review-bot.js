@@ -1,4 +1,3 @@
-const axios = require('axios');
 const { context, getOctokit } = require('@actions/github');
 
 async function getPRDescription() {
@@ -8,6 +7,7 @@ async function getPRDescription() {
 		repo: context.repo.repo,
 		pull_number: context.payload.pull_request.number,
 	});
+	console.log('pullRequest :>> ', pullRequest);
 	return pullRequest.body;
 }
 
@@ -15,9 +15,13 @@ async function generateReview(prDescription) {
 	const openaiApiKey = process.env.OPENAI_API_KEY;
 	const prompt = `Review the following pull request:\n${prDescription}\n\nReview:`;
 
-	const response = await axios.post(
-		'https://api.openai.com/v1/chat/completions',
-		{
+	const response = await fetch('https://api.openai.com/v1/chat/completions', {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${openaiApiKey}`,
+		},
+		method: 'POST',
+		body: JSON.stringify({
 			model: 'gpt-3.5-turbo',
 			messages: [{ role: 'system', content: prompt }],
 			max_tokens: 512,
@@ -25,16 +29,12 @@ async function generateReview(prDescription) {
 			temperature: 0.5,
 			frequency_penalty: 0,
 			presence_penalty: 0,
-		},
-		{
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${openaiApiKey}`,
-			},
-		},
-	);
+		}),
+	});
 
-	return response.data.choices[0].text.trim();
+	return response.json();
+
+	// return response.data.choices[0].text.trim();
 }
 
 async function main() {
