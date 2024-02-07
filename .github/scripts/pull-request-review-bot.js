@@ -16,7 +16,7 @@ async function generateReview(prDescription) {
 	const prompt = `Review the following pull request:\n${prDescription}\n\nReview:`;
 
 	const response = await axios.post(
-		'https://api.openai.com/v1/engines/davinci-codex-003/completions',
+		'https://api.openai.com/v1/chat/completions',
 		{
 			prompt,
 			max_tokens: 150,
