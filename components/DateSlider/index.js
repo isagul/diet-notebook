@@ -13,7 +13,6 @@ import { createDailyResults, getUserDietListRequest } from '@/services/diet';
 import { getDietListSelector, getCurrentDateSelector } from '@/store/selectors/dietListSelectors';
 import { setCurrentDate } from '@/store/slices/dietListSlice';
 
-const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
 
 const dateFormat = 'DD.MM.YYYY';
@@ -33,6 +32,7 @@ const disabledDate = current => {
 const DateSlider = () => {
 	const dietList = useSelector(getDietListSelector.getData);
 	const currentDate = useSelector(getCurrentDateSelector.getData);
+
 	const { data: session } = useSession();
 	const dispatch = useDispatch();
 	const [form] = Form.useForm();
@@ -55,12 +55,6 @@ const DateSlider = () => {
 			}
 		}
 	}, [dietList, form, selectedDate, isDietListExist]);
-
-	useEffect(() => {
-		if (dietList && dietList.length > 0 && currentDate === undefined) {
-			dispatch(setCurrentDate(dietList[DEFAULT_ACTIVE_KEY].date));
-		}
-	}, [dietList, dispatch, currentDate]);
 
 	const onFinishDailyResults = values => {
 		const data = {
