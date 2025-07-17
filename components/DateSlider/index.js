@@ -142,7 +142,7 @@ const DateSlider = () => {
 		<div className={styles.dateSliderComponent}>
 			<div className={styles.titleWrapper}>
 				<h4>Günlük Liste</h4>
-				{isDietListExist && selectedDate && (
+				{isDietListExist && (
 					<DatePicker
 						allowClear={false}
 						format={dateFormat}
