@@ -36,7 +36,9 @@ const DateSlider = () => {
 	const { data: session } = useSession();
 	const dispatch = useDispatch();
 	const [form] = Form.useForm();
-	const [selectedDate, setSelectedDate] = useState(dayjs(currentDate, selectedDateFormat));
+	const [selectedDate, setSelectedDate] = useState(
+		currentDate && dayjs(currentDate, selectedDateFormat),
+	);
 
 	const isDietListExist = dietList && dietList.length > 0;
 
@@ -140,13 +142,13 @@ const DateSlider = () => {
 		<div className={styles.dateSliderComponent}>
 			<div className={styles.titleWrapper}>
 				<h4>Günlük Liste</h4>
-				{isDietListExist && (
+				{isDietListExist && selectedDate && (
 					<DatePicker
 						allowClear={false}
 						format={dateFormat}
 						disabledDate={disabledDate}
 						onChange={handleOnDateChange}
-						value={selectedDate && dayjs(selectedDate)}
+						value={selectedDate}
 					/>
 				)}
 			</div>
