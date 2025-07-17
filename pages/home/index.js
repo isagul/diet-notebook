@@ -10,7 +10,7 @@ import { DateSlider } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
 import { getUserDietListRequest } from '@/services/diet';
 
-export default function HomePage({ session }) {
+export default function HomePage() {
 	const dispatch = useDispatch();
 	const { data: session, status } = useSession();
 
