@@ -1,20 +1,18 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useSession } from 'next-auth/react';
+import { useDispatch } from 'react-redux';
+import { useSession, getSession } from 'next-auth/react';
 
 import styles from './styles.module.scss';
 
 import LoginPage from '@/pages/auth/login';
 import { DateSlider } from '@/components/index';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
-import { getUserDietListRequest, createDietList } from '@/services/diet';
-import { getDietListSelector } from '@/store/selectors/dietListSelectors';
+import { getUserDietListRequest } from '@/services/diet';
 
-export default function HomePage() {
+export default function HomePage({ session }) {
 	const dispatch = useDispatch();
-	const { data: session, status } = useSession();
-	const dietList = useSelector(getDietListSelector.getData);
+	const { status } = useSession();
 
 	useEffect(() => {
 		if (session) {
@@ -23,28 +21,7 @@ export default function HomePage() {
 			};
 			dispatch(getUserDietListRequest({ data }));
 		}
-	}, [session.user, dispatch]);
-
-	useEffect(() => {
-		if (dietList && dietList.length > 0) {
-			const date = new Date();
-			const currentMonth = date.getMonth();
-			const pastMonth = Number(dietList[0].date.split('-')[1]);
-			if (currentMonth + 1 !== pastMonth) {
-				const data = {
-					email: session?.user?.email,
-				};
-
-				createDietList({ data })
-					.then(() => {
-						dispatch(getUserDietListRequest({ data: { email: data.email } }));
-					})
-					.catch(error => {
-						toast(error.response.data.error);
-					});
-			}
-		}
-	}, [dietList, dispatch, session.user.email]);
+	}, [dispatch, session]);
 
 	const MainContent = () => (
 		<div className={styles.mainContent}>
@@ -63,4 +40,14 @@ export default function HomePage() {
 			{status === SESSION_STATUS.UNAUTHENTICATED && <LoginPage />}
 		</div>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const session = await getSession(context);
+
+	return {
+		props: {
+			session,
+		},
+	};
 }

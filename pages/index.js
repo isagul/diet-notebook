@@ -1,10 +1,8 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
 import { Button, Space } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { useSession, getSession } from 'next-auth/react';
 
 import { ROUTES } from '@/constants/routes';
 import { SESSION_STATUS } from '@/constants/sessionStatus';
@@ -14,14 +12,7 @@ import styles from '@/styles/app-page.module.scss';
 
 export default function Home() {
 	const size = useWindowSize();
-	const { data: session, status } = useSession();
-	const router = useRouter();
-
-	useEffect(() => {
-		if (session) {
-			router.push(ROUTES.HOME);
-		}
-	}, [session, router]);
+	const { status } = useSession();
 
 	return (
 		<div className={styles.container}>
@@ -60,4 +51,23 @@ export default function Home() {
 			)}
 		</div>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const session = await getSession(context);
+
+	if (session) {
+		return {
+			redirect: {
+				destination: ROUTES.HOME,
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {
+			session,
+		},
+	};
 }
