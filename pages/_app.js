@@ -8,10 +8,14 @@ import locale from 'antd/locale/tr_TR';
 import { ConfigProvider } from 'antd';
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 import { Layout } from '@/components/index';
 import { store } from '@/store/index';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale('tr');
 
 function MyApp({ Component, pageProps }) {
