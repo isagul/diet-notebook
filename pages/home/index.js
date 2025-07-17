@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSession, getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 import styles from './styles.module.scss';
 
@@ -12,7 +12,7 @@ import { getUserDietListRequest } from '@/services/diet';
 
 export default function HomePage({ session }) {
 	const dispatch = useDispatch();
-	const { status } = useSession();
+	const { data: session, status } = useSession();
 
 	useEffect(() => {
 		if (session) {
@@ -40,14 +40,4 @@ export default function HomePage({ session }) {
 			{status === SESSION_STATUS.UNAUTHENTICATED && <LoginPage />}
 		</div>
 	);
-}
-
-export async function getServerSideProps(context) {
-	const session = await getSession(context);
-
-	return {
-		props: {
-			session,
-		},
-	};
 }
