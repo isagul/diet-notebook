@@ -1,45 +1,58 @@
-import { Collapse } from 'antd';
+import { Collapse, DatePicker } from 'antd';
 import { toast } from 'react-toastify';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Tabs, Form, Button, Row, Col } from 'antd';
+import { Input, Form, Button, Row, Col } from 'antd';
+import dayjs from 'dayjs';
 
 import styles from './styles.module.scss';
 
 import { Meal } from '@/components/index';
 import { createDailyResults, getUserDietListRequest } from '@/services/diet';
-import {
-	getDietListSelector,
-	getCurrentDateSelector,
-	getActiveKeySelector,
-} from '@/store/selectors/dietListSelectors';
-import { setCurrentDate, setActiveKey } from '@/store/slices/dietListSlice';
-import { getMonthName } from '@/utils/getDateWithMonthName';
-import { getMonthCount } from '@/utils/getDateWithMonthCount';
+import { getDietListSelector, getCurrentDateSelector } from '@/store/selectors/dietListSelectors';
+import { setCurrentDate } from '@/store/slices/dietListSlice';
 
 const DEFAULT_ACTIVE_KEY = String(new Date().getDate() - 1);
 const { Panel } = Collapse;
 
+const dateFormat = 'DD.MM.YYYY';
+const selectedDateFormat = 'D-M-YYYY';
+
+const disabledDate = current => {
+	const today = dayjs();
+
+	return (
+		!current ||
+		current.month() !== today.month() ||
+		current.year() !== today.year() ||
+		current.isAfter(today, 'day')
+	);
+};
+
 const DateSlider = () => {
 	const dietList = useSelector(getDietListSelector.getData);
 	const currentDate = useSelector(getCurrentDateSelector.getData);
-	const activeKey = useSelector(getActiveKeySelector.getData);
 	const { data: session } = useSession();
 	const dispatch = useDispatch();
 	const [form] = Form.useForm();
+	const [selectedDate, setSelectedDate] = useState(dayjs(currentDate, selectedDateFormat));
+
+	const isDietListExist = dietList && dietList.length > 0;
 
 	useEffect(() => {
-		if (dietList && dietList.length > 0) {
-			const currentDate = dietList[activeKey];
-			if (currentDate) {
+		if (isDietListExist && selectedDate) {
+			const currentDiet = dietList.find(
+				dietItem => dietItem.date === selectedDate.format(selectedDateFormat),
+			);
+			if (currentDiet) {
 				form.setFieldsValue({
-					stepCount: currentDate.stepCount,
-					waterAmount: currentDate.waterAmount,
+					stepCount: currentDiet.stepCount,
+					waterAmount: currentDiet.waterAmount,
 				});
 			}
 		}
-	}, [dietList, form, activeKey]);
+	}, [dietList, form, selectedDate, isDietListExist]);
 
 	useEffect(() => {
 		if (dietList && dietList.length > 0 && currentDate === undefined) {
@@ -56,7 +69,7 @@ const DateSlider = () => {
 		createDailyResults({ data })
 			.then(() => {
 				dispatch(getUserDietListRequest({ data: { email: data.email } }));
-				toast.success('Günlük sonuçlar başarıyla kaydedildi.');
+				toast.success('Günlük hedefler başarıyla kaydedildi.');
 			})
 			.catch(error => {
 				toast(error.response.data.error);
@@ -68,7 +81,7 @@ const DateSlider = () => {
 			<div className={styles.dayContentWrapper}>
 				<div className={styles.dailyTargetsWrapper}>
 					<Collapse>
-						<Panel header="Günlük Sonuçlar" key="1">
+						<Panel header="Günlük Hedefler" key="1">
 							<div className={styles.content}>
 								<Form
 									name="basic"
@@ -107,36 +120,37 @@ const DateSlider = () => {
 	const items = useMemo(() => {
 		return dietList.map((dietItem, index) => {
 			return {
-				label: getMonthName(dietItem.date),
+				label: dietItem.date,
 				key: String(index),
 				children: dayContent(),
 			};
 		});
 	}, [dietList, currentDate]);
 
-	const handleOnTabsChange = activeKey => {
-		const selectedDate = items.find(item => item.key === activeKey);
-		dispatch(setCurrentDate(getMonthCount(selectedDate.label)));
-		dispatch(setActiveKey(activeKey));
+	const handleOnDateChange = date => {
+		setSelectedDate(dayjs(date));
+		dispatch(setCurrentDate(dayjs(date).format(selectedDateFormat)));
 	};
+
+	const currentMeal = useMemo(() => {
+		return items.find(item => item.label === dayjs(selectedDate).format(selectedDateFormat));
+	}, [selectedDate, items]);
 
 	return (
 		<div className={styles.dateSliderComponent}>
 			<div className={styles.titleWrapper}>
 				<h4>Günlük Liste</h4>
-				{currentDate && <h4>Tarih: {getMonthName(currentDate)}</h4>}
+				{isDietListExist && (
+					<DatePicker
+						allowClear={false}
+						format={dateFormat}
+						disabledDate={disabledDate}
+						onChange={handleOnDateChange}
+						value={selectedDate && dayjs(selectedDate)}
+					/>
+				)}
 			</div>
-			{dietList && dietList.length > 0 && (
-				<Tabs
-					defaultActiveKey={DEFAULT_ACTIVE_KEY}
-					activeKey={activeKey}
-					tabPosition="left"
-					size="small"
-					type="card"
-					items={items}
-					onChange={handleOnTabsChange}
-				/>
-			)}
+			{currentMeal && currentMeal.children}
 		</div>
 	);
 };
