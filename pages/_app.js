@@ -12,7 +12,7 @@ import 'dayjs/locale/tr';
 import { Layout } from '@/components/index';
 import { store } from '@/store/index';
 
-dayjs.locale('zh-cn');
+dayjs.locale('tr');
 
 function MyApp({ Component, pageProps }) {
 	return (
