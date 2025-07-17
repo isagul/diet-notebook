@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Collapse, Descriptions } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { SmileOutlined, MehOutlined, FrownOutlined } from '@ant-design/icons';
 
@@ -15,8 +15,9 @@ const { Panel } = Collapse;
 
 const TXT_NO_DATA = 'Kayıtlı veri bulunamadı.';
 
-const Summary = ({ session }) => {
+const Summary = () => {
 	const dispatch = useDispatch();
+	const { data: session } = useSession();
 	const dietList = useSelector(getDietListSelector.getData);
 
 	useEffect(() => {
@@ -104,13 +105,3 @@ const Summary = ({ session }) => {
 };
 
 export default Summary;
-
-export async function getServerSideProps(context) {
-	const session = await getSession(context);
-
-	return {
-		props: {
-			session,
-		},
-	};
-}

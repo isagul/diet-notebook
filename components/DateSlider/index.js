@@ -1,7 +1,7 @@
 import { Collapse, DatePicker } from 'antd';
 import { toast } from 'react-toastify';
 import { useEffect, useMemo, useState } from 'react';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Form, Button, Row, Col } from 'antd';
 import dayjs from 'dayjs';
@@ -29,7 +29,8 @@ const disabledDate = current => {
 	);
 };
 
-const DateSlider = ({ session }) => {
+const DateSlider = () => {
+	const { data: session } = useSession();
 	const dietList = useSelector(getDietListSelector.getData);
 	const currentDate = useSelector(getCurrentDateSelector.getData);
 
@@ -151,13 +152,3 @@ const DateSlider = ({ session }) => {
 };
 
 export default DateSlider;
-
-export async function getServerSideProps(context) {
-	const session = await getSession(context);
-
-	return {
-		props: {
-			session,
-		},
-	};
-}
